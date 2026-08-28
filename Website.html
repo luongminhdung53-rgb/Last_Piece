@@ -26,8 +26,11 @@
       </ul>
 
       <!-- MODIFIED: Wrapped button in an ID container to dynamically update via JS -->
-      <div id="nav-auth-container">
-        <a href="Sign_in.html" type="button" id="button">Sign In</a>
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
+        <div id="nav-auth-container">
+          <a href="Sign_in.html" type="button" id="button">Sign In</a>
+        </div>
       </div>
     </nav>
   </header>
@@ -47,7 +50,7 @@
     <img src="https://cdn.worldvectorlogo.com/logos/gibson-appliance.svg" alt="" height="80px" id="logo">
     <div class="product-grid">
 
-      <div class="product-card">
+      <div class="product-card" href="product.html">
         <img src="https://vietmusic.vn/cdn/shop/files/LPSTAA01HBCH1_front.jpg?v=1733896075&width=1946" alt="Guitar">
         <h3>Gibson Les Paul Studio Session</h3>
         <p>$1,999</p>

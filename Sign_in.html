@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In - Guitarent</title>
-  <!-- MODIFIED: Updated stylesheet link -->
   <link rel="stylesheet" href="./css/authen.css">
 </head>
 
@@ -18,13 +17,13 @@
 
       <form id="signin-form">
         <div class="input-box">
-          <label>Email</label>
+          <h3>Email</h3>
           <input type="email" id="signin-email" placeholder="Enter your email" required maxlength="50">
         </div>
 
         <div class="input-box">
-          <label>Password</label>
-          <!-- MODIFIED: Added id -->
+          <h3>Password</h3>
+          
           <input type="password" id="signin-password" placeholder="Enter your password" required minlength="8" maxlength="20">
         </div>
 
@@ -38,13 +37,10 @@
         <p class="signup-link">
           Don’t have an account? <a href="Sign_up.html">Sign Up</a>
         </p>
-        <!-- MODIFIED: Converted anchor to submit button -->
         <button type="submit" id="button">Sign In</button>
       </form>
     </div>
   </section>
-
-  <!-- MODIFIED: Added JS script -->
   <script src="./js/authen.js"></script>
 </body>
 
