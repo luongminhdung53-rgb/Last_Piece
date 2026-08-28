@@ -83,11 +83,8 @@ body {
   font-size: 14px;
   color: #694207;
 }
-
-.breadcrumb a {
-  color: #694207;
-  text-decoration: none;
-  font-weight: bold;
+.breadcrumb span,#product-brand-breadcrumb,#product-title-breadcrumb{
+margin-right: 10px;
 }
 
 .product-wrapper {
