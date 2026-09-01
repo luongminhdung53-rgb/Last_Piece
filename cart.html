@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guitarent - Shopping Cart</title>
+  <link rel="stylesheet" href="./css/product.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar" id="top_header">
+      <a href="Website.html" class="logo">
+        <p class="guitarent">Guitarent</p>
+      </a>
+      <ul class="nav-links">
+        <li><a href="Website.html#Gibson">Gibson</a></li>
+        <li><a href="Website.html#Fender">Fender</a></li>
+        <li><a href="Website.html#Epiphone">Epiphone</a></li>
+        <li><a href="Website.html#Kramer">Kramer</a></li>
+        <li><a href="Website.html#PRS">PRS Guitars</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
+        <div id="nav-auth-container">
+          <a href="Sign_in.html" id="button">Sign In</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="product-container">
+    <div class="back-btn-container">
+      <a href="Website.html" class="back-btn">← Continue Shopping</a>
+    </div>
+
+    <h1>Your Shopping Cart</h1>
+
+    <!-- Empty Cart View -->
+    <div id="empty-cart-msg" class="specs-box" style="text-align: center; padding: 40px; display: none;">
+      <h3>Your cart is empty</h3>
+      <p style="margin-top: 10px; color: #d4a853;">Looks like you haven't added any guitars yet.</p>
+    </div>
+
+    <!-- Active Cart View -->
+    <div id="cart-items-container" style="margin-top: 20px;">
+      <!-- Item Cards Injected Here -->
+    </div>
+
+    <!-- Summary Box -->
+    <div id="cart-summary" class="specs-box" style="margin-top: 30px; text-align: right; padding: 25px; display: none;">
+      <h3 style="font-size: 24px; color: wheat;">
+        Subtotal: <span id="cart-subtotal" style="color: #d4a853;">$0</span>
+      </h3>
+      <button onclick="alert('Proceeding to checkout!')" class="add-to-cart-btn" style="padding: 12px 30px; margin-top: 15px; max-width: 250px;">
+        Checkout 💳
+      </button>
+    </div>
+  </main>
+
+  <script src="./js/cart.js"></script>
+</body>
+</html>

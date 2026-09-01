@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #d8c3a5;
+  background-color: #d8c3a5 !important;
   color: #3b240b;
 }
 
@@ -91,13 +91,12 @@ margin-right: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  background: #5a3b1a;
+  background: #5a3b1a !important;
   color: wheat;
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
-
 .product-image-section img {
   width: 100%;
   max-height: 450px;
@@ -185,7 +184,7 @@ margin-right: 10px;
 }
 
 .specs-box {
-  background: #3b240b;
+  background: #3b240b !important;
   padding: 20px;
   border-radius: 8px;
 }
@@ -262,3 +261,7 @@ footer {
 .theme-kramer .product-wrapper { background-color: #924242; }
 .theme-prs .product-wrapper { background-color: #a95506; }
 .theme-gibson .product-wrapper { background-color: #5a3b1a; }
+#remove:hover{
+  background-color: wheat;
+  color:  #840c0c;
+}
