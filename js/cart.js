@@ -1,5 +1,4 @@
 window.onload = function () {
-  // Inject Dynamic Styles for Hover Effects
   const style = document.createElement('style');
   style.innerHTML = `
     .remove-item-btn {
@@ -21,7 +20,6 @@ window.onload = function () {
   `;
   document.head.appendChild(style);
 
-  // 1. Auth & Cart Badge Setup
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const authContainer = document.getElementById('nav-auth-container');
 
@@ -29,7 +27,7 @@ window.onload = function () {
     const userName = currentUser.name ? currentUser.name.split(' ')[0] : 'Profile';
     authContainer.innerHTML = `
       <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
-        👤 ${userName}
+         ${userName}
       </a>
     `;
   }
@@ -57,7 +55,6 @@ window.onload = function () {
     if (emptyMsg) emptyMsg.style.display = 'none';
     if (summaryBox) summaryBox.style.display = 'block';
 
-    // Calculate Total & Render Items
     let subtotal = 0;
     itemsContainer.innerHTML = cart.map((item, index) => {
       subtotal += item.price * item.quantity;
@@ -89,8 +86,7 @@ window.onload = function () {
 
     if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
   }
-
-  // Global Quantity Controls
+  
   window.updateQty = function (index, change) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     if (cart[index]) {

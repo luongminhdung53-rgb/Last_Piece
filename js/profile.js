@@ -1,5 +1,4 @@
 window.onload = function () {
-  // Read saved profile
   let currentUser = JSON.parse(localStorage.getItem('currentUser')) || {
     name: 'Guitarist Player',
     email: 'player@guitarent.com',
@@ -7,7 +6,6 @@ window.onload = function () {
     address: ''
   };
 
-  // Get HTML elements
   const nameInput = document.getElementById('profile-fullname');
   const emailInput = document.getElementById('profile-email');
   const phoneInput = document.getElementById('profile-phone');
@@ -18,7 +16,6 @@ window.onload = function () {
   const profileForm = document.getElementById('profile-form');
   const logoutBtn = document.getElementById('logout-btn');
 
-  // Load values into UI
   if (nameInput) nameInput.value = currentUser.name || '';
   if (emailInput) emailInput.value = currentUser.email || '';
   if (phoneInput) phoneInput.value = currentUser.phone || '';

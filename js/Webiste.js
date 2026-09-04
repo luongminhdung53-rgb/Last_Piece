@@ -1,5 +1,4 @@
 window.onload = function () {
-  // 1. Update Auth state in Navbar
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const authContainer = document.getElementById('nav-auth-container');
 
@@ -12,22 +11,17 @@ window.onload = function () {
     `;
   }
 
-  // 2. Update Cart Badge Count
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const cartCountEl = document.getElementById('cart-count');
   if (cartCountEl) {
     cartCountEl.textContent = cart.reduce((total, item) => total + item.quantity, 0);
   }
 
-  // 3. Attach click event to all product cards
   const productCards = document.querySelectorAll('.product-card');
   productCards.forEach((card, index) => {
     card.addEventListener('click', () => {
-      // Find the brand section heading this card belongs to
       const section = card.closest('section');
       const brand = section ? section.id : 'Guitar';
-
-      // Scrape data directly from the card elements
       const imgEl = card.querySelector('img');
       const titleEl = card.querySelector('h3');
       const priceEl = card.querySelector('p');
@@ -44,10 +38,8 @@ window.onload = function () {
         img: imgSrc
       };
 
-      // Save selected product object to LocalStorage
       localStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
 
-      // Redirect to product page
       window.location.href = 'product.html';
     });
   });

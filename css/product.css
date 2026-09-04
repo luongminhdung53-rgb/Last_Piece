@@ -71,7 +71,6 @@ body {
   font-weight: 600;
 }
 
-/* Product Detail Section */
 .product-container {
   max-width: 1100px;
   margin: 100px auto 40px;
@@ -232,7 +231,7 @@ footer {
   text-decoration: none;
   color: inherit;
 }
-/* Back Button */
+
 .back-btn-container {
   margin-bottom: 15px;
 }
@@ -255,7 +254,6 @@ footer {
   color: #3b240b;
 }
 
-/* Brand Dynamic Themes */
 .theme-fender .product-wrapper { background-color: #840c0c; }
 .theme-epiphone .product-wrapper { background-color: #5f2b03; }
 .theme-kramer .product-wrapper { background-color: #924242; }

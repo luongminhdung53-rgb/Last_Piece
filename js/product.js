@@ -1,5 +1,4 @@
 window.onload = function () {
-  // 1. Update Navbar Auth & Cart
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const authContainer = document.getElementById('nav-auth-container');
 
@@ -7,7 +6,7 @@ window.onload = function () {
     const userName = currentUser.name ? currentUser.name.split(' ')[0] : 'Profile';
     authContainer.innerHTML = `
       <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
-        👤 ${userName}
+         ${userName}
       </a>
     `;
   }
@@ -21,7 +20,6 @@ window.onload = function () {
   }
   updateCartBadge();
 
-  // 2. Load Selected Product with Default Fallback
   const defaultProduct = {
     id: 'gibson-1',
     name: 'Gibson Les Paul Studio Session',
@@ -32,7 +30,6 @@ window.onload = function () {
 
   const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct')) || defaultProduct;
 
-  // Populate UI
   document.getElementById('product-img').src = selectedProduct.img || defaultProduct.img;
   document.getElementById('product-title').textContent = selectedProduct.name || defaultProduct.name;
   document.getElementById('product-title-breadcrumb').textContent = selectedProduct.name || defaultProduct.name;
@@ -40,14 +37,12 @@ window.onload = function () {
   document.getElementById('product-brand-breadcrumb').textContent = selectedProduct.brand || defaultProduct.brand;
   document.getElementById('product-price').textContent = `$${Number(selectedProduct.price || defaultProduct.price).toLocaleString()}`;
 
-  // ADDED: Dynamic Brand Theme Styling
   const container = document.querySelector('.product-container');
   if (container && selectedProduct.brand) {
     const brandClass = `theme-${selectedProduct.brand.toLowerCase()}`;
     container.classList.add(brandClass);
   }
 
-  // 3. Quantity Controls
   const qtyInput = document.getElementById('qty-input');
   const qtyMinus = document.getElementById('qty-minus');
   const qtyPlus = document.getElementById('qty-plus');
@@ -60,8 +55,6 @@ window.onload = function () {
       if (parseInt(qtyInput.value) < 10) qtyInput.value = parseInt(qtyInput.value) + 1;
     };
   }
-
-  // 4. Add to Cart Logic
   const addToCartBtn = document.getElementById('add-to-cart-btn');
   if (addToCartBtn) {
     addToCartBtn.onclick = () => {

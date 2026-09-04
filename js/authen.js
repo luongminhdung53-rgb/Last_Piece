@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return JSON.parse(localStorage.getItem('registeredUsers')) || [];
   }
 
-  // Handle Sign In
   if (signinForm) {
     signinForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -16,33 +15,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const registeredUsers = getRegisteredUsers();
 
-      // Find user matching the entered email
       const existingUser = registeredUsers.find(
         (user) => user.email.toLowerCase() === emailInput.toLowerCase()
       );
 
       if (existingUser) {
-        // Verify password
+
         if (existingUser.password !== passwordInput) {
           alert('Incorrect password. Please try again.');
           return;
         }
-
-        // Set as active logged in user with all saved account details
         localStorage.setItem('currentUser', JSON.stringify(existingUser));
         alert(`Welcome back, ${existingUser.name}!`);
         window.location.href = 'Website.html';
       } else {
-        // Fallback for new sign-in attempts without a prior sign-up
+     
         const fallbackUser = {
-          name: emailInput.split('@')[0], // Generate default name from email prefix
+          name: emailInput.split('@')[0], 
           email: emailInput,
           password: passwordInput,
           phone: '',
           address: ''
         };
-
-        // Save to users list and set as current active user
         registeredUsers.push(fallbackUser);
         localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
         localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
@@ -51,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle Sign Up
   if (signupForm) {
     signupForm.addEventListener('submit', (e) => {
       e.preventDefault();
