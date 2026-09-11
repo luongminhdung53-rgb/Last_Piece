@@ -21,28 +21,33 @@ body.signup-body {
   align-items: center;
   min-height: 100vh;
 }
-.signin-section, .signup-section {
+
+.signin-section,
+.signup-section {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.signin-container, .signup-container {
+.signin-container,
+.signup-container {
   background: white;
   color: black;
   width: 400px;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.signin-container h1, .signup-container h1 {
+.signin-container h1,
+.signup-container h1 {
   text-align: center;
   margin-bottom: 10px;
 }
 
-.signin-container p, .signup-container p {
+.signin-container p,
+.signup-container p {
   text-align: center;
   margin-bottom: 25px;
   color: gray;
@@ -109,26 +114,31 @@ body.signup-body {
   transform: scale(1.02);
 }
 
-.signup-link, .login-link {
+.signup-link,
+.login-link {
   margin-top: 20px;
   text-align: center;
 }
 
-.signup-link a, .login-link a {
+.signup-link a,
+.login-link a {
   color: black;
   font-weight: bold;
   text-decoration: none;
 }
 
-.signup-link a:hover, .login-link a:hover {
+.signup-link a:hover,
+.login-link a:hover {
   color: gold;
 }
-.terms{
-    display: flex;
+
+.terms {
+  display: flex;
   align-items: center;
   margin-bottom: 20px;
   font-size: 14px;
 }
-.terms span{
-    margin-left: 20px;
+
+.terms span {
+  margin-left: 20px;
 }

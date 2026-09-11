@@ -29,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Welcome back, ${existingUser.name}!`);
         window.location.href = 'Website.html';
       } else {
-     
+
         const fallbackUser = {
-          name: emailInput.split('@')[0], 
+          name: emailInput.split('@')[0],
           email: emailInput,
           password: passwordInput,
           phone: '',
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'Sign_in.html';
         return;
       }
-      
+
       const newUser = {
         name: name,
         email: email,

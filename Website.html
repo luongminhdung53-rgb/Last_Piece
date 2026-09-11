@@ -5,10 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guitarent</title>
-  <!-- MODIFIED: CSS link pointing to same folder -->
   <link rel="stylesheet" href="./css/Website.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
 </head>
 
 <body>
@@ -25,11 +25,27 @@
         <li><a href="#PRS" class="active">PRS Guitars</a></li>
       </ul>
 
-              <a href="weather.html" class="weather">☁</a>
+      <a href="weather.html" class="weather">☁</a>
       <div class="nav-actions">
         <a href="cart.html" class="cart-btn"> Cart (<span id="cart-count">0</span>)</a>
         <div id="nav-auth-container">
           <a href="Sign_in.html" type="button" id="button">Sign In</a>
+        </div>
+        <!-- Search Button in Navbar -->
+        <button id="search-toggle-btn" class="search-icon-btn" title="Search Guitars">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <!-- Expandable Search Modal Overlay -->
+        <div id="search-modal" class="search-modal hidden">
+          <div class="search-modal-content">
+            <form id="search-form">
+              <input type="text" id="search-input" placeholder="Type model (e.g. ES-335, Stratocaster)..."
+                autocomplete="off" />
+              <button type="submit" id="search-submit-btn">Search</button>
+            </form>
+            <button id="close-search-btn" class="close-search-btn">&times;</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -43,342 +59,39 @@
     </div>
   </section>
 
-  <!-- Featured Products -->
-
   <!-- Gibson -->
   <section class="featured" id="Gibson">
-    <img src="https://cdn.worldvectorlogo.com/logos/gibson-appliance.svg" alt="" height="80px" id="logo">
-    <div class="product-grid">
-
-      <div class="product-card" href="product.html">
-        <img src="https://vietmusic.vn/cdn/shop/files/LPSTAA01HBCH1_front.jpg?v=1733896075&width=1946" alt="Guitar">
-        <h3>Gibson Les Paul Studio Session</h3>
-        <p>$1,999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://www.bettermusic.com.au/cdn/shop/files/LPSTDCW26HSCH1_1.png?v=1774569756&width=1920" alt="Guitar">
-        <h3 title="Gibson Les Paul Studio Double Trouble">Gibson Les Paul Studio Double Trouble</h3>
-        <p>$1,599</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://sc1.musik-produktiv.com/pic-010119982l/gibson-custom-shop-1957-les-paul-junior-vs-10119982.jpg" alt="Guitar">
-        <h3 title="Gibson Custom 1957 Les Paul Junior Reissue">Gibson Custom 1957 Les Paul Junior Reissue</h3>
-        <p>$5,399</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_45/459749/20922372_800.jpg" alt="Guitar">
-        <h3 title="Gibson Custom Les Paul Axcess Standard">Gibson Custom Les Paul Axcess Standard</h3>
-        <p>$6,299</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://www.belfieldmusic.com.au/cdn/shop/files/Gibson-Victory-Electric-Guitar-Figured-Top-Wine-Red---VICF00WRCH1_1600x.jpg?v=1725600550" alt="Guitar">
-        <h3>Gibson Victory Figured Top</h3>
-        <p>$2,499</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://tannhaccu.vn/cdn/shop/files/DanGuitarDi_nGibsonSGStandard_61FadedMaestroVibrola_VintageCherrytannhaccu_1.jpg?v=1755157007" alt="Guitar">
-        <h3 title="Gibson SG Standard '61 Faded">Gibson SG Standard '61 Faded</h3>
-        <p>$1,799</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_48/482467/18401207_800.jpg" alt="Guitar">
-        <h3>Gibson ES-335 60s</h3>
-        <p>$3,499</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://rvb-img.reverb.com/i/s--6aAhqZrl--/quality=medium-low,height=800,width=800,fit=contain/vpqrer0g9aocalwd5nk5.png" alt="Guitar">
-        <h3>Gibson Flying V 80s</h3>
-        <p>$2,499</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/ES3000SCNH1_front_1af9b3f3-50a4-4814-bb90-af735a460a99.jpg?v=1746972676&width=1946" alt="Guitar">
-        <h3 title="Gibson Custom LE 1959 ES-330 Reissue">Gibson Custom LE 1959 ES-330 Reissue</h3>
-        <p>$6,999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLQbwcBk2BrEe5KBZYoLYT2D2c7FpkvN7KWQ&s" alt="Guitar">
-        <h3 title="Gibson Custom LE 1964 SG Standard">Gibson Custom LE 1964 SG Standard</h3>
-        <p>$6,699</p>
-      </div>
-    </div>
+    <img src="https://cdn.worldvectorlogo.com/logos/gibson-appliance.svg" alt="Gibson Logo" height="80px" id="logo">
+    <div class="product-grid"></div>
   </section>
 
   <!-- Fender -->
   <section class="featured" id="Fender">
-    <img src="//intl.fender.com/cdn/shop/files/fender_logo.svg?v=1741186043&width=600" alt="" height="80px" id="logo">
-    <div class="product-grid">
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/cache/catalog/fender-player-plus-telecaster-mn-cmj-400x400.jpg" alt="Guitar">
-        <h3>Fender Player Plus Telecaster</h3>
-        <p>$1,709</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/cache/catalog/fender/Electric/fender-am-ultra-strat-maple-hss-ultraburst-0118022712-400x400.jpg" alt="Guitar">
-        <h3>Fender AM Ultra Stratocaster®</h3>
-        <p>$1,749</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/cache/catalog/squier/squier-fsr-sonic-strat-hss-laurel-surf-green-0373200557-400x400.jpg" alt="Guitar">
-        <h3>Squier Fsr Sonic Stratocaster®</h3>
-        <p>$5,399</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/catalog/2-electric-guitar/fender-hybrid-ii-strat-rw.jpg" alt="Guitar">
-        <h3>Fender Hybrid II Stratocaster®</h3>
-        <p>$4,659</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/cache/catalog/2-electric-guitar/fender-j-75-ann-rw-2cb-400x400.jpg" alt="Guitar">
-        <h3>Fender J 75 ann</h3>
-        <p>$1,289</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/cache/catalog/2-electric-guitar/fender-player-stratocasterr-hsh-400x400.jpg" alt="Guitar">
-        <h3 title="Fender Player Stratocaster® HSH">Fender Player Stratocaster® HSH</h3>
-        <p>$1,899</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/catalog/2-electric-guitar/fender-aerodyne-ii-strat-hss-rw-hss-medium.jpg" alt="Guitar">
-        <h3>Fender Aerodyne II Stratocaster®</h3>
-        <p>$3,619</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/cache/catalog/2-electric-guitar/fender-vintera-road-wornr-50s-stratocasterr-400x400.jpg" alt="Guitar">
-        <h3 title="Fender Vintera Road Worn® '50s Stratocaster®">Fender Vintera Road Worn® '50s Stratocaster®</h3>
-        <p>$2,439</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietthuong.vn/image/catalog/fender/fender-american-professional-ii-stratocaster-0113902747.jpg" alt="Guitar">
-        <h3 title="Fender American Professional II Stratocaster®">Fender American Professional II Stratocaster®</h3>
-        <p>$2,999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLQbwcBk2BrEe5KBZYoLYT2D2c7FpkvN7KWQ&s" alt="Guitar">
-        <h3 title="Fender Player Telecaster®">Fender Player Telecaster®</h3>
-        <p>$5,699</p>
-      </div>
-    </div>
+    <img src="//intl.fender.com/cdn/shop/files/fender_logo.svg?v=1741186043&width=600" alt="Fender Logo" height="80px"
+      id="logo">
+    <div class="product-grid"></div>
   </section>
 
   <!-- Epiphone -->
   <section class="featured" id="Epiphone">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Epiphone_guitars_logo.svg/1280px-Epiphone_guitars_logo.svg.png" alt="" height="80px" id="logo">
-    <div class="product-grid">
-
-      <div class="product-card">
-        <img src="https://rvb-img.reverb.com/i/s--c5QbMLel--/quality=medium-low,height=800,width=800,fit=contain/izcowpveoske3ysjiuol.png" alt="Guitar">
-        <h3>Epiphone Sheraton</h3>
-        <p>$899</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_58/588968/20935856_800.jpg" alt="Guitar">
-        <h3>Epiphone USA Coronet</h3>
-        <p>$1,699</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTisMXjSd9GKQHYg4JWD5hhxc1KLihmnmwQKw&s" alt="Guitar">
-        <h3 title="Epiphone Emperor Swingster">Epiphone Emperor Swingster</h3>
-        <p>$799</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://cdn11.bigcommerce.com/s-dks6ju/images/stencil/1280x1280/products/25224/321416/bbda67c2-587a-5f27-a6b1-329fe9840686__51039.1715804988.jpg?c=2" alt="Guitar">
-        <h3>Epiphone USA Casino</h3>
-        <p>$3,499</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/EIGLPCEBGH1_front__1_1ceef816-9370-4afa-a502-6ec89a374e75.jpg?v=1741442874&width=1946" alt="Guitar">
-        <h3>Epiphone Les Paul Custom</h3>
-        <p>$799</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://www.russomusic.com/cdn/shop/files/ECLSR0PENH1-epiphone-1960-les-paul-special-double-cut-reissue-electric-pelham-blue-3_500x.png?v=1764007236" alt="Guitar">
-        <h3 title="Epiphone IGC 1960 Les Paul Special Double Cut Reissue">Epiphone IGC 1960 Les Paul Special Double Cut Reissue</h3>
-        <p>$999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/static.gibson.com_product-images_Epiphone_EPI8IH60_Heritage_Cherry_Sunburst_EILS5HSNH1_front.jpg?v=1764522595&width=1946" alt="Guitar">
-        <h3 title="Epiphone Les Paul Standard 50s">Epiphone Les Paul Standard 50s</h3>
-        <p>$899</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/EIGSGSEBNH1_front.jpg?v=1741101562&width=1946" alt="Guitar">
-        <h3>Epiphone SG Standard</h3>
-        <p>$599</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://rvb-img.reverb.com/i/s--IU8ky_yb--/quality=medium-low,height=800,width=800,fit=contain/ye11kelass1d12hjfwcw.jpg" alt="Guitar">
-        <h3 title="Epiphone Matt Heafy Les Paul Custom Origins 7-String">Epiphone Matt Heafy Les Paul Custom Origins 7-String</h3>
-        <p>$1,199</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_63/633990/20837917_800.jpg" alt="Guitar">
-        <h3>Epiphone Firebird</h3>
-        <p>$799</p>
-      </div>
-    </div>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Epiphone_guitars_logo.svg/1280px-Epiphone_guitars_logo.svg.png"
+      alt="Epiphone Logo" height="80px" id="logo">
+    <div class="product-grid"></div>
   </section>
 
   <!-- Kramer -->
   <section class="featured" id="Kramer">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Kramer_guitars_logo.png" alt="" height="80px" id="logo">
-    <div class="product-grid">
-
-      <div class="product-card">
-        <img src="https://media.guitarcenter.com/is/image/MMGS7/M13649000001000-02-600x600.jpg" alt="Guitar">
-        <h3>Kramer Pacer Deluxe 87 EMG</h3>
-        <p>$1,499</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://d13s5rafcqkqiu.cloudfront.net/CACHE/images/products/other/kramer/906116_kramer-jersey-star-electric-guitar_gQkRkT_1-auto/e6086161fa97c5acf9a8f31fee27f45c.jpg" alt="Guitar">
-        <h3>Kramer Jersey Star</h3>
-        <p>$1,299</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://imgs.ssl-jan-pic.com/files/ec3bb57ef0c5d56992881219ca912f11c299dc8e72c714abd1e2f9ccc6b54e70.jpg" alt="Guitar">
-        <h3>Kramer Volante HSGT</h3>
-        <p>$999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://d13s5rafcqkqiu.cloudfront.net/CACHE/images/products/other/kramer/848566_kramer-assault-figured-electric-guitar_WAbokt_2-auto/23a97b3f93c41e065e1495af255f6f9f.jpg" alt="Guitar">
-        <h3>Kramer Assault Figured</h3>
-        <p>$999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://rvb-img.reverb.com/i/s--gKRlGjzY--/quality=medium-low,height=800,width=800,fit=contain/xoona8mmxdaxt4r2p96s.png" alt="Guitar">
-        <h3>Kramer 84 HH</h3>
-        <p>$999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://rvb-img.reverb.com/i/s--WN9tVzPL--/quality=medium-low,height=800,width=800,fit=contain/i0ns6pn1czad0yokotl3.jpg" alt="Guitar">
-        <h3>Kramer Nite-V</h3>
-        <p>$899</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://cdn.sanity.io/images/5skqgt41/production/7b6444f25d047bf1ed8476f4ea32490765e4136b-1000x1000.jpg?auto=format" alt="Guitar">
-        <h3>Kramer Baretta Special</h3>
-        <p>$229</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://images.musicstore.de/images/1280/kramer-guitars-sm-1-candy-blue_1_GIT0053861-000.jpg" alt="Guitar">
-        <h3>Kramer SM-1</h3>
-        <p>$1,049</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://cdn11.bigcommerce.com/s-dks6ju/images/stencil/1280w/products/30774/537963/kramer-striker-figured-hss-stoptail-transparent-ebony__28086.1710587392.jpg?c=2" alt="Guitar">
-        <h3>Kramer Striker Figured HSS</h3>
-        <p>$379</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://rvb-img.reverb.com/i/s--yapYrgmD--/quality=medium-low,height=800,width=800,fit=contain/qwdarflmalg9xi3msl7r.jpg" alt="Guitar">
-        <h3>Kramer Charlie Parra Vanguard</h3>
-        <p>$899</p>
-      </div>
-    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Kramer_guitars_logo.png" alt="Kramer Logo"
+      height="80px" id="logo">
+    <div class="product-grid"></div>
   </section>
 
   <!-- PRS -->
   <section class="featured" id="PRS">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Prs_guitars_logo.png/330px-Prs_guitars_logo.png" alt="" height="80px" id="logo">
-    <div class="product-grid">
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/Cobalt_Smokeburst1.webp?v=1761627657&width=1946" alt="Guitar">
-        <h3>PRS Custom 24 Piezo</h3>
-        <p>$1,599</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://mainguyenmusic.vn/cdn/shop/files/dan-guitar-dien-prs-ce-24-semi-hollow-wbag-dark-cherry-sunburst-mai-nguyen-music.jpg?v=1691172645" alt="Guitar">
-        <h3>PRS CE 24 Semi-Hollow</h3>
-        <p>$1,799</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://images.musicstore.de/images/1280/prs-mccarty-594-mango-top-limited-edition-black-gold-burst_1_GIT0065014-000.jpg" alt="Guitar">
-        <h3 title="PRS McCarty 594 Mango Top Limited Edition">PRS McCarty 594 Mango Top Limited Edition</h3>
-        <p>$3,499</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://www.sweelee.com.vn/cdn/shop/products/products_2FP13-111858-HL-MH77QHL_2FP13-111858-HL-MH77QHL_1676705178330.jpg?v=1677497233&width=2048" alt="Guitar">
-        <h3>PRS SE Mark Holcomb SVN</h3>
-        <p>$8,599</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://www.chicagomusicexchange.com/cdn/shop/files/prs-electric-guitars-prs-private-stock-30th-anniversary-birds-of-a-feather-limited-hollowbody-i-frostbite-glow-prs-private-stock-30th-anniversary-birds-of-a-feather-limited-hollowbody-i-frostbite-glow-117723-xx2-1233120262.jpg?v=1776724673&width=1946" alt="Guitar">
-        <h3 title="PRS Private Stock Hollowbody I">PRS Private Stock Hollowbody I</h3>
-        <p>$4,599</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/PRS_JMSS_JY_Front_912395-fdda89f323024a10517c7d3e11c73164.jpg?v=1777666393&width=1946" alt="Guitar">
-        <h3 title="PRS Silver Sky Wild Blue Limited Edition">PRS Silver Sky Wild Blue Limited Edition</h3>
-        <p>$3,999</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_63/631606/20842782_800.jpg" alt="Guitar">
-        <h3>PRS Fiore HH</h3>
-        <p>$3,899</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/PRS-Paul-Reed-Smith-S2-Studio-Electric-Guitar-Faded-Grey-Black-Blue-Burst_5000x_998bbe35-7598-45c1-8c5e-ce4da5acbf79.webp?v=1753706866&width=1946" alt="Guitar">
-        <h3>PRS S2 Studio</h3>
-        <p>$1,789</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/1_Full_Straight_Front_NA-114fd86e5b868e52226d6be1954de076.jpg?v=1753766979&width=1946" alt="Guitar">
-        <h3>PRS S2 Standard 24</h3>
-        <p>$5,269</p>
-      </div>
-
-      <div class="product-card">
-        <img src="https://vietmusic.vn/cdn/shop/files/products_2FP13-111515-DH-HBPEIBDH_2FP13-111515-DH-HBPEIBDH_1680144600580_9d814ef4-14c9-4357-a2f0-d5b3016ec13a.webp?v=1752751257&width=1946" alt="Guitar">
-        <h3 title="PRS SE Hollowbody Standard Piezo">PRS SE Hollowbody Standard Piezo</h3>
-        <p>$699</p>
-      </div>
-
-    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Prs_guitars_logo.png/330px-Prs_guitars_logo.png"
+      alt="PRS Logo" height="80px" id="logo">
+    <div class="product-grid"></div>
   </section>
 
   <!-- Footer -->
@@ -386,7 +99,9 @@
     <div class="footer-container">
       <div>
         <h4>Company</h4>
-        <a href="#hero"><p>About</p></a>
+        <a href="#hero">
+          <p>About</p>
+        </a>
         <p>Careers</p>
       </div>
 
@@ -398,13 +113,16 @@
 
       <div>
         <h4>Follow</h4>
-        <a href="https://www.instagram.com/gibsonguitar/"><p>Instagram</p></a>
-        <a href="https://www.youtube.com/@gibsonguitar"><p>Youtube</p></a>
+        <a href="https://www.instagram.com/gibsonguitar/">
+          <p>Instagram</p>
+        </a>
+        <a href="https://www.youtube.com/@gibsonguitar">
+          <p>Youtube</p>
+        </a>
       </div>
     </div>
   </footer>
 
-  <!-- MODIFIED: Included website.js for dynamic auth checking -->
   <script src="./js/Webiste.js"></script>
 </body>
 

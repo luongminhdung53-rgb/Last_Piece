@@ -1,84 +1,105 @@
-window.onload = function () {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  const authContainer = document.getElementById('nav-auth-container');
-
-  if (currentUser && authContainer) {
-    const userName = currentUser.name ? currentUser.name.split(' ')[0] : 'Profile';
-    authContainer.innerHTML = `
-      <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
-         ${userName}
-      </a>
-    `;
-  }
-
-  function updateCartBadge() {
+document.addEventListener('DOMContentLoaded', function () {
+  // Update navbar cart count
+  function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartCountEl = document.getElementById('cart-count');
     if (cartCountEl) {
       cartCountEl.textContent = cart.reduce((total, item) => total + item.quantity, 0);
     }
   }
-  updateCartBadge();
 
-  const defaultProduct = {
-    id: 'gibson-1',
-    name: 'Gibson Les Paul Studio Session',
-    price: '1999',
-    brand: 'Gibson',
-    img: 'https://vietmusic.vn/cdn/shop/files/LPSTAA01HBCH1_front.jpg?v=1733896075&width=1946'
-  };
+  updateCartCount();
 
-  const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct')) || defaultProduct;
+  // Retrieve selected product data
+  const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
 
-  document.getElementById('product-img').src = selectedProduct.img || defaultProduct.img;
-  document.getElementById('product-title').textContent = selectedProduct.name || defaultProduct.name;
-  document.getElementById('product-title-breadcrumb').textContent = selectedProduct.name || defaultProduct.name;
-  document.getElementById('product-brand').textContent = selectedProduct.brand || defaultProduct.brand;
-  document.getElementById('product-brand-breadcrumb').textContent = selectedProduct.brand || defaultProduct.brand;
-  document.getElementById('product-price').textContent = `$${Number(selectedProduct.price || defaultProduct.price).toLocaleString()}`;
-
-  const container = document.querySelector('.product-container');
-  if (container && selectedProduct.brand) {
-    const brandClass = `theme-${selectedProduct.brand.toLowerCase()}`;
-    container.classList.add(brandClass);
+  if (!selectedProduct) {
+    console.warn("No product selected in localStorage.");
+    return;
   }
 
+  // Helper function to safely set element text
+  const setElementText = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+
+  // Populate textual content
+  setElementText('product-title', selectedProduct.name);
+  setElementText('product-title-path', selectedProduct.name);
+  setElementText('product-brand', selectedProduct.brand);
+  setElementText('product-brand-path', selectedProduct.brand);
+
+  const formattedPrice = selectedProduct.price.toString().startsWith('$')
+    ? selectedProduct.price
+    : `$${selectedProduct.price}`;
+  setElementText('product-price', formattedPrice);
+  setElementText('product-description', selectedProduct.description || "No description available.");
+
+  // Populate image
+  const imgEl = document.getElementById('product-img');
+  if (imgEl && selectedProduct.img) {
+    imgEl.src = selectedProduct.img;
+    imgEl.alt = selectedProduct.name;
+  }
+
+  // Quantity selector controls
   const qtyInput = document.getElementById('qty-input');
   const qtyMinus = document.getElementById('qty-minus');
   const qtyPlus = document.getElementById('qty-plus');
 
-  if (qtyMinus && qtyPlus && qtyInput) {
-    qtyMinus.onclick = () => {
-      if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
-    };
-    qtyPlus.onclick = () => {
-      if (parseInt(qtyInput.value) < 10) qtyInput.value = parseInt(qtyInput.value) + 1;
-    };
+  if (qtyMinus && qtyInput) {
+    qtyMinus.addEventListener('click', () => {
+      let currentVal = parseInt(qtyInput.value) || 1;
+      if (currentVal > 1) qtyInput.value = currentVal - 1;
+    });
   }
+
+  if (qtyPlus && qtyInput) {
+    qtyPlus.addEventListener('click', () => {
+      let currentVal = parseInt(qtyInput.value) || 1;
+      if (currentVal < 10) qtyInput.value = currentVal + 1;
+    });
+  }
+
+  // Add to Cart functionality
   const addToCartBtn = document.getElementById('add-to-cart-btn');
   if (addToCartBtn) {
-    addToCartBtn.onclick = () => {
+    addToCartBtn.addEventListener('click', function () {
+      const quantity = parseInt(qtyInput ? qtyInput.value : 1) || 1;
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const quantity = parseInt(qtyInput.value) || 1;
 
-      const existingIndex = cart.findIndex((item) => item.name === selectedProduct.name);
+      // Clean numeric price
+      const numericPrice = parseFloat(selectedProduct.price.toString().replace(/[^0-9.]/g, '')) || 0;
 
-      if (existingIndex !== -1) {
-        cart[existingIndex].quantity += quantity;
+      // Check if item already exists in cart
+      const existingItemIndex = cart.findIndex(item => item.id === selectedProduct.id);
+
+      if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity += quantity;
       } else {
         cart.push({
-          id: selectedProduct.id || Date.now(),
+          id: selectedProduct.id,
           name: selectedProduct.name,
-          price: parseFloat(selectedProduct.price),
-          img: selectedProduct.img,
+          price: numericPrice,
           brand: selectedProduct.brand,
+          img: selectedProduct.img,
           quantity: quantity
         });
       }
 
       localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartBadge();
-      alert(`${quantity} x ${selectedProduct.name} added to cart!`);
-    };
+      updateCartCount();
+
+      // Feedback animation/alert
+      const originalText = addToCartBtn.textContent;
+      addToCartBtn.textContent = "Added to Cart!";
+      addToCartBtn.style.backgroundColor = "#4CAF50";
+
+      setTimeout(() => {
+        addToCartBtn.textContent = originalText;
+        addToCartBtn.style.backgroundColor = "";
+      }, 1500);
+    });
   }
-};
+});

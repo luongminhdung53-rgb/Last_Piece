@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Check - Guitarent</title>
+  <link rel="stylesheet" href="./css/weather.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="Website.html" class="back-link">← Back to Store</a>
+    <span class="nav-title">Guitarent Weather</span>
+  </nav>
+
+  <main class="weather-section">
+    <div class="weather-card">
+      <h1>Check Shipping & Outdoor Weather</h1>
+      <p>Search your city or use your device location to check local conditions.</p>
+
+      <form id="weather-form">
+        <div class="input-group">
+          <label for="location-input">City Name</label>
+          <input type="text" id="location-input" placeholder="e.g. Hanoi, Tokyo, London" required maxlength="40">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search Weather</button>
+        <button type="button" id="device-location-btn" class="btn btn-secondary">
+          <i class="fa-solid fa-location-crosshairs"></i> Use My Location
+        </button>
+      </form>
+
+      <div id="weather-result" class="weather-result hidden">
+        <h2 id="city-name"></h2>
+        <div id="temperature" class="temp-display"></div>
+        <p id="weather-desc" class="weather-desc"></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="./js/weather.js"></script>
+</body>
+
+</html>

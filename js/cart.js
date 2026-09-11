@@ -86,7 +86,7 @@ window.onload = function () {
 
     if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
   }
-  
+
   window.updateQty = function (index, change) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     if (cart[index]) {
