@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Update navbar cart count
   function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartCountEl = document.getElementById('cart-count');
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   updateCartCount();
 
-  // Retrieve selected product data
   const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
 
   if (!selectedProduct) {
@@ -18,13 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  // Helper function to safely set element text
   const setElementText = (id, text) => {
     const el = document.getElementById(id);
     if (el) el.textContent = text;
   };
 
-  // Populate textual content
   setElementText('product-title', selectedProduct.name);
   setElementText('product-title-path', selectedProduct.name);
   setElementText('product-brand', selectedProduct.brand);
@@ -36,14 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
   setElementText('product-price', formattedPrice);
   setElementText('product-description', selectedProduct.description || "No description available.");
 
-  // Populate image
   const imgEl = document.getElementById('product-img');
   if (imgEl && selectedProduct.img) {
     imgEl.src = selectedProduct.img;
     imgEl.alt = selectedProduct.name;
   }
 
-  // Quantity selector controls
   const qtyInput = document.getElementById('qty-input');
   const qtyMinus = document.getElementById('qty-minus');
   const qtyPlus = document.getElementById('qty-plus');
@@ -61,18 +55,14 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentVal < 10) qtyInput.value = currentVal + 1;
     });
   }
-
-  // Add to Cart functionality
   const addToCartBtn = document.getElementById('add-to-cart-btn');
   if (addToCartBtn) {
     addToCartBtn.addEventListener('click', function () {
       const quantity = parseInt(qtyInput ? qtyInput.value : 1) || 1;
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-      // Clean numeric price
       const numericPrice = parseFloat(selectedProduct.price.toString().replace(/[^0-9.]/g, '')) || 0;
 
-      // Check if item already exists in cart
       const existingItemIndex = cart.findIndex(item => item.id === selectedProduct.id);
 
       if (existingItemIndex > -1) {
@@ -91,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartCount();
 
-      // Feedback animation/alert
       const originalText = addToCartBtn.textContent;
       addToCartBtn.textContent = "Added to Cart!";
       addToCartBtn.style.backgroundColor = "#4CAF50";
@@ -100,6 +89,23 @@ document.addEventListener('DOMContentLoaded', function () {
         addToCartBtn.textContent = originalText;
         addToCartBtn.style.backgroundColor = "";
       }, 1500);
+    });
+  }
+});
+document.addEventListener('DOMContentLoaded', function () {
+  const openChatBtn = document.getElementById('open-chat-btn');
+  const closeChatBtn = document.getElementById('close-chat-btn');
+  const chatWidget = document.getElementById('chat-widget-container');
+
+  if (openChatBtn && chatWidget) {
+    openChatBtn.addEventListener('click', () => {
+      chatWidget.classList.toggle('hidden');
+    });
+  }
+
+  if (closeChatBtn && chatWidget) {
+    closeChatBtn.addEventListener('click', () => {
+      chatWidget.classList.add('hidden');
     });
   }
 });

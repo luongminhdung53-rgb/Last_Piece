@@ -9,7 +9,6 @@ const cityName = document.getElementById("city-name");
 const temperature = document.getElementById("temperature");
 const weatherDesc = document.getElementById("weather-desc");
 
-// City search submit handler
 weatherForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const location = locationInput.value.trim();
@@ -19,7 +18,6 @@ weatherForm.addEventListener("submit", (e) => {
   }
 });
 
-// Geolocation click handler
 deviceLocationBtn.addEventListener("click", () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(

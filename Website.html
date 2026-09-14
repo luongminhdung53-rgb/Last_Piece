@@ -31,16 +31,14 @@
         <div id="nav-auth-container">
           <a href="Sign_in.html" type="button" id="button">Sign In</a>
         </div>
-        <!-- Search Button in Navbar -->
         <button id="search-toggle-btn" class="search-icon-btn" title="Search Guitars">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
 
-        <!-- Expandable Search Modal Overlay -->
         <div id="search-modal" class="search-modal hidden">
           <div class="search-modal-content">
             <form id="search-form">
-              <input type="text" id="search-input" placeholder="Type model (e.g. ES-335, Stratocaster)..."
+              <input type="text" id="search-input" placeholder="Start typing what you are looking for"
                 autocomplete="off" />
               <button type="submit" id="search-submit-btn">Search</button>
             </form>
@@ -58,7 +56,26 @@
       <a href="#Gibson" class="hero-button">Explore Now</a>
     </div>
   </section>
+<!-- Featured Highlights Section -->
+<section class="featured-section">
+  <!-- New Arrivals -->
+  <div class="featured-block">
+    <div class="section-title">
+      <h2><i class="fa-solid fa-sparkles"></i> New Arrivals</h2>
+      <span class="subtext">Fresh additions to our collection</span>
+    </div>
+    <div id="new-arrivals-grid" class="featured-grid"></div>
+  </div>
 
+  <!-- Best Sellers -->
+  <div class="featured-block">
+    <div class="section-title">
+      <h2><i class="fa-solid fa-fire"></i> Best Sellers</h2>
+      <span class="subtext">Top picks voted by guitarists</span>
+    </div>
+    <div id="best-sellers-grid" class="featured-grid"></div>
+  </div>
+</section>
   <!-- Gibson -->
   <section class="featured" id="Gibson">
     <img src="https://cdn.worldvectorlogo.com/logos/gibson-appliance.svg" alt="Gibson Logo" height="80px" id="logo">
@@ -93,6 +110,7 @@
       alt="PRS Logo" height="80px" id="logo">
     <div class="product-grid"></div>
   </section>
+  
 
   <!-- Footer -->
   <footer>
@@ -124,6 +142,25 @@
   </footer>
 
   <script src="./js/Webiste.js"></script>
+<div id="chat-widget-container" class="chat-widget-container hidden">
+  <div class="chat-header">
+    <div class="chat-title">
+      <i class="fa-solid fa-robot"></i> Guitarent AI
+    </div>
+    <button id="close-chat-btn" class="close-chat-btn">&times;</button>
+  </div>
+  <iframe
+    src="https://www.chatbase.co/chatbot-iframe/eiq7oUjAeq1k1q9JCFwty"
+    width="100%"
+    height="100%"
+    frameborder="0"
+    allow="microphone"
+  ></iframe>
+</div>
+
+<button id="open-chat-btn" class="chat-toggle-btn" title="Chat with Gui">
+  <i class="fa-solid fa-comment-dots"></i>
+</button>
 </body>
 
 </html>

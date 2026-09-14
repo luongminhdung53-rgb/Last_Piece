@@ -5,21 +5,24 @@ const Gibson = [
     name: "Gibson Les Paul Studio Session",
     price: "$1,999",
     image: "https://vietmusic.vn/cdn/shop/files/LPSTAA01HBCH1_front.jpg?v=1733896075&width=1946",
-    description: "Designed for studio musicians and performers, featuring an ultra-modern weight-relieved mahogany body, maple top, and dual '57 Classic humbuckers for versatile high-gain and crystal-clean tones."
+    description: "Designed for studio musicians and performers, featuring an ultra-modern weight-relieved mahogany body, maple top, and dual '57 Classic humbuckers for versatile high-gain and crystal-clean tones.",
+    isBestSeller: true
   },
   {
     id: 2,
     name: "Gibson Les Paul Studio Double Trouble",
     price: "$1,599",
     image: "https://www.bettermusic.com.au/cdn/shop/files/LPSTDCW26HSCH1_1.png?v=1774569756&width=1920",
-    description: "A stripped-back double-cutaway powerhouse built for effortless high-fret access, equipped with dual 490R and 490T humbuckers delivering classic mid-range warmth."
+    description: "A stripped-back double-cutaway powerhouse built for effortless high-fret access, equipped with dual 490R and 490T humbuckers delivering classic mid-range warmth.",
+    isBestSeller: true
   },
   {
     id: 3,
     name: "Gibson Custom 1957 Les Paul Junior Reissue",
     price: "$5,399",
     image: "https://sc1.musik-produktiv.com/pic-010119982l/gibson-custom-shop-1957-les-paul-junior-vs-10119982.jpg",
-    description: "Crafted by the Gibson Custom Shop with historical accuracy, featuring a solid mahogany slab body, single Dogear P-90 pickup, and 1950s chunky neck profile."
+    description: "Crafted by the Gibson Custom Shop with historical accuracy, featuring a solid mahogany slab body, single Dogear P-90 pickup, and 1950s chunky neck profile.",
+    isBestSeller: true
   },
   {
     id: 4,
@@ -32,7 +35,7 @@ const Gibson = [
     id: 5,
     name: "Gibson Victory Figured Top",
     price: "$2,499",
-    image: "https://www.belfieldmusic.com.au/cdn/shop/files/Gibson-Victory-Electric-Guitar-Figured-Top-Wine-Red---VICF00WRCH1_1600x.jpg?v=1725600550",
+    image: "https://tannhaccu.vn/cdn/shop/files/DanGuitarDi_nGibsonVictoryFiguredTop_SmokehouseBursttannhaccu_4.jpg?v=1755226736",
     description: "A revival of the iconic 1980s offset design, combining a AAA figured maple top, 80s Tribute humbuckers, and push-pull coil tap capabilities."
   },
   {
@@ -40,14 +43,16 @@ const Gibson = [
     name: "Gibson SG Standard '61 Faded",
     price: "$1,799",
     image: "https://tannhaccu.vn/cdn/shop/files/DanGuitarDi_nGibsonSGStandard_61FadedMaestroVibrola_VintageCherrytannhaccu_1.jpg?v=1755157007",
-    description: "Features a satin nitrocellulose lacquer finish, slim taper mahogany neck, and Burstbucker 61R/61T pickups for vintage PAF warmth and bite."
+    description: "Features a satin nitrocellulose lacquer finish, slim taper mahogany neck, and Burstbucker 61R/61T pickups for vintage PAF warmth and bite.",
+    isBestSeller: true
   },
   {
     id: 7,
     name: "Gibson ES-335 60s",
     price: "$3,499",
     image: "https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_48/482467/18401207_800.jpg",
-    description: "The cornerstone semi-hollowbody guitar featuring a maple centerblock, rounded C mahogany neck, and hand-wired Calibrated T-Type humbucking pickups."
+    description: "The cornerstone semi-hollowbody guitar featuring a maple centerblock, rounded C mahogany neck, and hand-wired Calibrated T-Type humbucking pickups.",
+    isNew: true
   },
   {
     id: 8,
@@ -68,7 +73,8 @@ const Gibson = [
     name: "Gibson Custom LE 1964 SG Standard",
     price: "$6,699",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLQbwcBk2BrEe5KBZYoLYT2D2c7FpkvN7KWQ&s",
-    description: "Recreated using 3D scanning technology, featuring a Maestro Vibrola tailpiece, authentic medium-jumbo frets, and Custombucker Alnico III pickups."
+    description: "Recreated using 3D scanning technology, featuring a Maestro Vibrola tailpiece, authentic medium-jumbo frets, and Custombucker Alnico III pickups.",
+    isNew: true
   }
 ];
 
@@ -99,7 +105,8 @@ const Fender = [
     name: "Squier Fsr Sonic Stratocaster®",
     price: "$5,399",
     image: "https://vietthuong.vn/image/cache/catalog/squier/squier-fsr-sonic-strat-hss-laurel-surf-green-0373200557-400x400.jpg",
-    description: "Lightweight poplar body paired with an HSS pickup configuration, sealed-gear tuning machines, and a 6-saddle vintage-style synchronized tremolo."
+    description: "Lightweight poplar body paired with an HSS pickup configuration, sealed-gear tuning machines, and a 6-saddle vintage-style synchronized tremolo.",
+    isBestSeller: true
   },
   {
     id: 5,
@@ -113,7 +120,8 @@ const Fender = [
     name: "Fender J 75 ann",
     price: "$1,289",
     image: "https://vietthuong.vn/image/cache/catalog/2-electric-guitar/fender-j-75-ann-rw-2cb-400x400.jpg",
-    description: "Special 75th Anniversary edition featuring a headstock-matching logo, vintage-style '60s single-coil pickups, and custom engraved neck plate."
+    description: "Special 75th Anniversary edition featuring a headstock-matching logo, vintage-style '60s single-coil pickups, and custom engraved neck plate.",
+    isNew: true
   },
   {
     id: 7,
@@ -127,7 +135,8 @@ const Fender = [
     name: "Fender Aerodyne II Stratocaster®",
     price: "$3,619",
     image: "https://vietthuong.vn/image/catalog/2-electric-guitar/fender-aerodyne-ii-strat-hss-rw-hss-medium.jpg",
-    description: "Sleek carved top design with black binding, Dragster BB humbucker in the bridge, and aerodyne single-coils in neck/middle positions."
+    description: "Sleek carved top design with black binding, Dragster BB humbucker in the bridge, and aerodyne single-coils in neck/middle positions.",
+    isNew: true
   },
   {
     id: 9,
@@ -141,7 +150,8 @@ const Fender = [
     name: "Fender Player Telecaster®",
     price: "$5,699",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLQbwcBk2BrEe5KBZYoLYT2D2c7FpkvN7KWQ&s",
-    description: "Classic Tele twang and bite delivered through dual Player Series single-coil pickups, bent-steel saddles, and a Modern C maple neck profile."
+    description: "Classic Tele twang and bite delivered through dual Player Series single-coil pickups, bent-steel saddles, and a Modern C maple neck profile.",
+    isNew: true
   }
 ];
 
@@ -158,7 +168,8 @@ const Epiphone = [
     name: "Epiphone USA Coronet",
     price: "$1,699",
     image: "https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_58/588968/20935856_800.jpg",
-    description: "Built in the USA featuring a symmetrical mahogany body, single USA P-90 Soapbar pickup, CTS potentiometers, and Grover Mini Rotomatic tuners."
+    description: "Built in the USA featuring a symmetrical mahogany body, single USA P-90 Soapbar pickup, CTS potentiometers, and Grover Mini Rotomatic tuners.",
+    isBestSeller: true
   },
   {
     id: 3,
@@ -172,7 +183,8 @@ const Epiphone = [
     name: "Epiphone USA Casino",
     price: "$3,499",
     image: "https://cdn11.bigcommerce.com/s-dks6ju/images/stencil/1280x1280/products/25224/321416/bbda67c2-587a-5f27-a6b1-329fe9840686__51039.1715804988.jpg?c=2",
-    description: "Made in the USA hollowbody legend fitted with Gibson USA Dogear P-90 pickups, 3-ply maple/poplar/maple body, and hand-wired Orange Drop capacitors."
+    description: "Made in the USA hollowbody legend fitted with Gibson USA Dogear P-90 pickups, 3-ply maple/poplar/maple body, and hand-wired Orange Drop capacitors.",
+    isBestSeller: true
   },
   {
     id: 5,
@@ -193,7 +205,8 @@ const Epiphone = [
     name: "Epiphone Les Paul Standard 50s",
     price: "$899",
     image: "https://vietmusic.vn/cdn/shop/files/static.gibson.com_product-images_Epiphone_EPI8IH60_Heritage_Cherry_Sunburst_EILS5HSNH1_front.jpg?v=1764522595&width=1946",
-    description: "Recreates the feel of vintage 1950s Les Pauls with a mahogany body, maple cap, 50s neck profile, and ProBucker-2 and ProBucker-3 humbuckers."
+    description: "Recreates the feel of vintage 1950s Les Pauls with a mahogany body, maple cap, 50s neck profile, and ProBucker-2 and ProBucker-3 humbuckers.",
+    isBestSeller: true
   },
   {
     id: 8,
@@ -207,14 +220,16 @@ const Epiphone = [
     name: "Epiphone Matt Heafy Les Paul Custom Origins",
     price: "$1,199",
     image: "https://rvb-img.reverb.com/i/s--IU8ky_yb--/quality=medium-low,height=800,width=800,fit=contain/ye11kelass1d12hjfwcw.jpg",
-    description: "Signature model for Trivium's Matt Heafy, equipped with custom Fishman Fluence active pickups offering three distinct tonal voicings."
+    description: "Signature model for Trivium's Matt Heafy, equipped with custom Fishman Fluence active pickups offering three distinct tonal voicings.",
+    isNew: true
   },
   {
     id: 10,
     name: "Epiphone Firebird",
     price: "$799",
     image: "https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_63/633990/20837917_800.jpg",
-    description: "Reverse body and headstock design constructed with 9-ply mahogany/walnut neck-through architecture and ProBucker FB720 mini-humbuckers."
+    description: "Reverse body and headstock design constructed with 9-ply mahogany/walnut neck-through architecture and ProBucker FB720 mini-humbuckers.",
+    isNew: true
   }
 ];
 
@@ -224,21 +239,24 @@ const Kramer = [
     name: "Kramer Pacer Deluxe 87 EMG",
     price: "$1,499",
     image: "https://media.guitarcenter.com/is/image/MMGS7/M13649000001000-02-600x600.jpg",
-    description: "Tribute to Kramer's shredding legacy with active EMG 81/85 humbuckers, Floyd Rose 1000 Series double-locking tremolo, and maple neck."
+    description: "Tribute to Kramer's shredding legacy with active EMG 81/85 humbuckers, Floyd Rose 1000 Series double-locking tremolo, and maple neck.",
+    isNew: true
   },
   {
     id: 2,
     name: "Kramer Jersey Star",
     price: "$1,299",
     image: "https://d13s5rafcqkqiu.cloudfront.net/CACHE/images/products/other/kramer/906116_kramer-jersey-star-electric-guitar_gQkRkT_1-auto/e6086161fa97c5acf9a8f31fee27f45c.jpg",
-    description: "Iconic 1980s signature design featuring gold hardware, mother-of-pearl star fretboard inlays, and three Seymour Duncan JB Jr. and JN humbuckers."
+    description: "Iconic 1980s signature design featuring gold hardware, mother-of-pearl star fretboard inlays, and three Seymour Duncan JB Jr. and JN humbuckers.",
+    isNew: true
   },
   {
     id: 3,
     name: "Kramer Volante HSGT",
     price: "$999",
     image: "https://imgs.ssl-jan-pic.com/files/ec3bb57ef0c5d56992881219ca912f11c299dc8e72c714abd1e2f9ccc6b54e70.jpg",
-    description: "High-speed shred guitar featuring an asymmetric double-cutaway mahogany body, high-output Alnico humbuckers, and recessed Floyd Rose bridge."
+    description: "High-speed shred guitar featuring an asymmetric double-cutaway mahogany body, high-output Alnico humbuckers, and recessed Floyd Rose bridge.",
+    isBestSeller: true
   },
   {
     id: 4,
@@ -252,7 +270,8 @@ const Kramer = [
     name: "Kramer 84 HH",
     price: "$999",
     image: "https://rvb-img.reverb.com/i/s--gKRlGjzY--/quality=medium-low,height=800,width=800,fit=contain/xoona8mmxdaxt4r2p96s.png",
-    description: "Homage to Kramer's golden era with an alder body, Seymour Duncan JB humbucker in the bridge, JN in the neck, and push-pull series/parallel switching."
+    description: "Homage to Kramer's golden era with an alder body, Seymour Duncan JB humbucker in the bridge, JN in the neck, and push-pull series/parallel switching.",
+    isNew: true
   },
   {
     id: 6,
@@ -266,7 +285,8 @@ const Kramer = [
     name: "Kramer Baretta Special",
     price: "$229",
     image: "https://cdn.sanity.io/images/5skqgt41/production/7b6444f25d047bf1ed8476f4ea32490765e4136b-1000x1000.jpg?auto=format",
-    description: "Accessible entry into Kramer performance featuring a single high-output Alnico V zebra humbucker, vintage-style tremolo, and slim maple neck."
+    description: "Accessible entry into Kramer performance featuring a single high-output Alnico V zebra humbucker, vintage-style tremolo, and slim maple neck.",
+    isBestSeller: true
   },
   {
     id: 8,
@@ -280,7 +300,8 @@ const Kramer = [
     name: "Kramer Striker Figured HSS",
     price: "$379",
     image: "https://cdn11.bigcommerce.com/s-dks6ju/images/stencil/1280w/products/30774/537963/kramer-striker-figured-hss-stoptail-transparent-ebony__28086.1710587392.jpg?c=2",
-    description: "Features a AAA flame maple veneer top, versatile HSS pickup layout, fast-playing satin-finished maple neck, and licensed Floyd Rose tremolo."
+    description: "Features a AAA flame maple veneer top, versatile HSS pickup layout, fast-playing satin-finished maple neck, and licensed Floyd Rose tremolo.",
+    isNew: true
   },
   {
     id: 10,
@@ -297,14 +318,16 @@ const PRS_Guitars = [
     name: "PRS Custom 24 Piezo",
     price: "$1,599",
     image: "https://vietmusic.vn/cdn/shop/files/Cobalt_Smokeburst1.webp?v=1761627657&width=1946",
-    description: "Dual-output guitar featuring PRS 85/15 humbuckers paired with an acoustic LR Baggs piezo system for blending acoustic and electric tones."
+    description: "Dual-output guitar featuring PRS 85/15 humbuckers paired with an acoustic LR Baggs piezo system for blending acoustic and electric tones.",
+    isBestSeller: true
   },
   {
     id: 2,
     name: "PRS CE 24 Semi-Hollow",
     price: "$1,799",
     image: "https://mainguyenmusic.vn/cdn/shop/files/dan-guitar-dien-prs-ce-24-semi-hollow-wbag-dark-cherry-sunburst-mai-nguyen-music.jpg?v=1691172645",
-    description: "Combines the snap and response of a bolt-on maple neck with the added resonance and air of a semi-hollow mahogany/maple body."
+    description: "Combines the snap and response of a bolt-on maple neck with the added resonance and air of a semi-hollow mahogany/maple body.",
+    isBestSeller: true
   },
   {
     id: 3,
@@ -324,8 +347,9 @@ const PRS_Guitars = [
     id: 5,
     name: "PRS Private Stock Hollowbody I",
     price: "$4,599",
-    image: "https://www.chicagomusicexchange.com/cdn/shop/files/prs-electric-guitars-prs-private-stock-30th-anniversary-birds-of-a-feather-limited-hollowbody-i-frostbite-glow-prs-private-stock-30th-anniversary-birds-of-a-feather-limited-hollowbody-i-frostbite-glow-117723-xx2-1233120262.jpg?v=1776724673&width=1946",
-    description: "Masterbuilt fully hollow instrument featuring hand-selected curly maple top, mahogany back, and Private Stock 58/15 humbucking electronics."
+    image: "https://guitardien.vn/cdn/shop/files/PRSMcCarty594HollowbodyII-TanNhacCu_9_fa3d827f-c74e-411a-ad7f-b5369319c5d0.png?v=1744690384  ",
+    description: "Masterbuilt fully hollow instrument featuring hand-selected curly maple top, mahogany back, and Private Stock 58/15 humbucking electronics.",
+    isNew: true
   },
   {
     id: 6,
@@ -346,21 +370,24 @@ const PRS_Guitars = [
     name: "PRS S2 Studio",
     price: "$1,789",
     image: "https://vietmusic.vn/cdn/shop/files/PRS-Paul-Reed-Smith-S2-Studio-Electric-Guitar-Faded-Grey-Black-Blue-Burst_5000x_998bbe35-7598-45c1-8c5e-ce4da5acbf79.webp?v=1753706866&width=1946",
-    description: "Features a Type-D single-coil setup in the neck and middle with a Starla humbucker in the bridge, offering 7 distinct pickup combinations."
+    description: "Features a Type-D single-coil setup in the neck and middle with a Starla humbucker in the bridge, offering 7 distinct pickup combinations.",
+    isNew: true
   },
   {
     id: 9,
     name: "PRS S2 Standard 24",
     price: "$5,269",
     image: "https://vietmusic.vn/cdn/shop/files/1_Full_Straight_Front_NA-114fd86e5b868e52226d6be1954de076.jpg?v=1753766979&width=1946",
-    description: "All-mahogany solid body construction equipped with 85/15 \"S\" pickups, push/pull tone coil tapping, and a patented PRS molded tremolo."
+    description: "All-mahogany solid body construction equipped with 85/15 \"S\" pickups, push/pull tone coil tapping, and a patented PRS molded tremolo.",
+    isNew: true
   },
   {
     id: 10,
     name: "PRS SE Hollowbody Standard Piezo",
     price: "$699",
     image: "https://vietmusic.vn/cdn/shop/files/products_2FP13-111515-DH-HBPEIBDH_2FP13-111515-DH-HBPEIBDH_1680144600580_9d814ef4-14c9-4357-a2f0-d5b3016ec13a.webp?v=1752751257&width=1946",
-    description: "All-mahogany hollowbody with dual 58/15 \"S\" humbuckers and LR Baggs/PRS Piezo system for dual acoustic and electric output."
+    description: "All-mahogany hollowbody with dual 58/15 \"S\" humbuckers and LR Baggs/PRS Piezo system for dual acoustic and electric output.",
+    isNew: true
   }
 ];
 
@@ -423,26 +450,23 @@ function selectProduct(brand, productId) {
     price: item.price.replace(/[^0-9.]/g, ''),
     brand: brand,
     img: item.image,
-    description: item.description // <-- Passes exact brand description
+    description: item.description
   };
 
   localStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
   window.location.href = 'product.html';
 }
 const searchInput = document.getElementById('search-input');
-const searchForm = document.getElementById('search-form'); // Wrap your input in a <form id="search-form"> tag in HTML
+const searchForm = document.getElementById('search-form');
 
-// Helper function to handle exact matching and redirection
 function handleSearchRedirect(query) {
   const cleanQuery = query.toLowerCase().trim();
   if (!cleanQuery) return;
 
-  // 1. Look for an exact match first
   let targetProduct = guitarsList.find(product =>
     product.name.toLowerCase() === cleanQuery
   );
 
-  // 2. If no exact match, look for the first product that starts with or contains the search phrase
   if (!targetProduct) {
     targetProduct = guitarsList.find(product =>
       product.name.toLowerCase().includes(cleanQuery) ||
@@ -450,16 +474,14 @@ function handleSearchRedirect(query) {
     );
   }
 
-  // 3. If a matching guitar is found, save it and transition directly to the product detail page
   if (targetProduct) {
     localStorage.setItem('selectedProduct', JSON.stringify(targetProduct));
-    window.location.href = 'product.html'; // Adjust to your product page filename
+    window.location.href = 'product.html';
   } else {
     alert("No exact guitar match found for your search.");
   }
 }
 
-// Option A: Live filtering while typing + Redirect on pressing 'Enter'
 if (searchInput) {
   searchInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
@@ -468,7 +490,6 @@ if (searchInput) {
     }
   });
 
-  // Optional: Keep live filtering as they type
   searchInput.addEventListener('input', function (e) {
     const query = e.target.value.toLowerCase().trim();
     const filteredProducts = guitarsList.filter(product =>
@@ -479,7 +500,6 @@ if (searchInput) {
   });
 }
 
-// Option B: Redirect on Form Submit (if using a search button/form)
 if (searchForm) {
   searchForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -488,6 +508,7 @@ if (searchForm) {
     }
   });
 }
+// --- LIVE PAGE FILTER SEARCH ---
 document.addEventListener('DOMContentLoaded', function () {
   const searchToggleBtn = document.getElementById('search-toggle-btn');
   const searchModal = document.getElementById('search-modal');
@@ -495,7 +516,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const searchForm = document.getElementById('search-form');
   const searchInput = document.getElementById('search-input');
 
-  // Open search modal
+  // Toggle modal open/close
   if (searchToggleBtn && searchModal) {
     searchToggleBtn.addEventListener('click', function () {
       searchModal.classList.remove('hidden');
@@ -503,23 +524,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Close search modal
   if (closeSearchBtn && searchModal) {
     closeSearchBtn.addEventListener('click', function () {
       searchModal.classList.add('hidden');
     });
   }
 
-  // Combine all brand lists into one master list for searching
-  const allGuitars = [
-    ...(typeof Gibson !== 'undefined' ? Gibson.map(p => ({ ...p, brand: 'Gibson' })) : []),
-    ...(typeof Fender !== 'undefined' ? Fender.map(p => ({ ...p, brand: 'Fender' })) : []),
-    ...(typeof Epiphone !== 'undefined' ? Epiphone.map(p => ({ ...p, brand: 'Epiphone' })) : []),
-    ...(typeof Kramer !== 'undefined' ? Kramer.map(p => ({ ...p, brand: 'Kramer' })) : []),
-    ...(typeof PRS_Guitars !== 'undefined' ? PRS_Guitars.map(p => ({ ...p, brand: 'PRS' })) : [])
-  ];
-
-  // Perform exact/fuzzy search & redirect on submit or Enter key
+  // Ctrl+F Filter logic on submit
   if (searchForm) {
     searchForm.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -527,28 +538,130 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (!query) return;
 
-      // Search for match in name or brand
-      const matchedGuitar = allGuitars.find(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.brand.toLowerCase() === query
-      );
-
-      if (matchedGuitar) {
-        const selectedProduct = {
-          id: `${matchedGuitar.brand.toLowerCase()}-${matchedGuitar.id}`,
-          name: matchedGuitar.name,
-          price: matchedGuitar.price.replace(/[^0-9.]/g, ''),
-          brand: matchedGuitar.brand,
-          img: matchedGuitar.image,
-          description: matchedGuitar.description
-        };
-
-        // Save target guitar and switch page
-        localStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
-        window.location.href = 'product.html';
-      } else {
-        alert("No guitar found matching: " + query);
+      // Close search modal overlay
+      if (searchModal) {
+        searchModal.classList.add('hidden');
       }
+const featuredSection = document.querySelector('.featured-section');
+      if (featuredSection) {
+        featuredSection.style.display = 'none';
+      }
+      const brandList = [
+        { name: 'Gibson', data: typeof Gibson !== 'undefined' ? Gibson : [] },
+        { name: 'Fender', data: typeof Fender !== 'undefined' ? Fender : [] },
+        { name: 'Epiphone', data: typeof Epiphone !== 'undefined' ? Epiphone : [] },
+        { name: 'Kramer', data: typeof Kramer !== 'undefined' ? Kramer : [] },
+        { name: 'PRS', data: typeof PRS_Guitars !== 'undefined' ? PRS_Guitars : [] }
+      ];
+
+      // Filter each brand section live on the page
+      brandList.forEach(b => {
+        const section = document.getElementById(b.name);
+        if (!section) return;
+
+        const grid = section.querySelector('.product-grid');
+        if (!grid) return;
+
+        const matches = b.data.filter(item =>
+          item.name.toLowerCase().includes(query) ||
+          b.name.toLowerCase().includes(query)
+        );
+
+        if (matches.length > 0) {
+          section.style.display = 'block';
+          grid.innerHTML = matches.map(prod => `
+            <div class="product-card" onclick="selectProduct('${b.name}', ${prod.id})">
+              <img src="${prod.image}" alt="${prod.name}">
+              <h3 title="${prod.name}">${prod.name}</h3>
+              <p>${prod.price}</p>
+            </div>
+          `).join('');
+        } else {
+          section.style.display = 'none'; // Hide non-matching sections
+        }
+      });
     });
   }
 });
+document.addEventListener('DOMContentLoaded', function () {
+  const openChatBtn = document.getElementById('open-chat-btn');
+  const closeChatBtn = document.getElementById('close-chat-btn');
+  const chatWidget = document.getElementById('chat-widget-container');
+
+  if (openChatBtn && chatWidget) {
+    openChatBtn.addEventListener('click', () => {
+      chatWidget.classList.toggle('hidden');
+    });
+  }
+
+  if (closeChatBtn && chatWidget) {
+    closeChatBtn.addEventListener('click', () => {
+      chatWidget.classList.add('hidden');
+    });
+  }
+});
+document.addEventListener('DOMContentLoaded', function () {
+  // Combine all items into master catalog
+  const masterCatalog = [
+    ...(typeof Gibson !== 'undefined' ? Gibson.map(p => ({ ...p, brand: 'Gibson' })) : []),
+    ...(typeof Fender !== 'undefined' ? Fender.map(p => ({ ...p, brand: 'Fender' })) : []),
+    ...(typeof Epiphone !== 'undefined' ? Epiphone.map(p => ({ ...p, brand: 'Epiphone' })) : []),
+    ...(typeof Kramer !== 'undefined' ? Kramer.map(p => ({ ...p, brand: 'Kramer' })) : []),
+    ...(typeof PRS_Guitars !== 'undefined' ? PRS_Guitars.map(p => ({ ...p, brand: 'PRS' })) : [])
+  ];
+
+  // Helper to build HTML card
+  function createFeaturedCardHTML(product, badgeText, badgeClass) {
+    const rawPrice = String(product.price).replace(/[^0-9.]/g, '');
+    return `
+      <div class="featured-card" onclick="selectFeaturedProduct('${product.brand}', '${product.id}')">
+        <span class="badge ${badgeClass}">${badgeText}</span>
+        <img src="${product.image || product.img}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p class="price">$${rawPrice}</p>
+      </div>
+    `;
+  }
+
+  // Render New Arrivals (Fallback to first 4 items if no 'isNew' flag set)
+  const newArrivalsGrid = document.getElementById('new-arrivals-grid');
+  if (newArrivalsGrid) {
+    let newItems = masterCatalog.filter(item => item.isNew);
+    if (newItems.length === 0) newItems = masterCatalog.slice(0, 4); // Fallback
+
+    newArrivalsGrid.innerHTML = newItems.slice(0, 4)
+      .map(item => createFeaturedCardHTML(item, 'NEW', 'badge-new'))
+      .join('');
+  }
+
+  // Render Best Sellers (Fallback to next 4 items if no 'isBestSeller' flag set)
+  const bestSellersGrid = document.getElementById('best-sellers-grid');
+  if (bestSellersGrid) {
+    let hotItems = masterCatalog.filter(item => item.isBestSeller);
+    if (hotItems.length === 0) hotItems = masterCatalog.slice(4, 8); // Fallback
+
+    bestSellersGrid.innerHTML = hotItems.slice(0, 4)
+      .map(item => createFeaturedCardHTML(item, 'HOT', 'badge-hot'))
+      .join('');
+  }
+});
+
+// Click handler for featured items -> Product detail transition
+function selectFeaturedProduct(brand, id) {
+  const brandArray = window[brand] || window[brand === 'PRS' ? 'PRS_Guitars' : brand];
+  if (!brandArray) return;
+
+  const foundProduct = brandArray.find(item => String(item.id) === String(id));
+  if (foundProduct) {
+    const selectedProduct = {
+      id: `${brand.toLowerCase()}-${foundProduct.id}`,
+      name: foundProduct.name,
+      price: String(foundProduct.price).replace(/[^0-9.]/g, ''),
+      brand: brand,
+      img: foundProduct.image || foundProduct.img,
+      description: foundProduct.description
+    };
+    localStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
+    window.location.href = 'product.html';
+  }
+}

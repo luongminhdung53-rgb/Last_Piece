@@ -10,15 +10,29 @@
 </head>
 
 <body>
-  <nav class="navbar">
-    <a href="Website.html" class="back-link">← Back to Store</a>
-    <span class="nav-title">Guitarent Weather</span>
-  </nav>
-
+  <header>
+    <nav class="navbar" id="top_header">
+      <a href="Website.html" class="logo">
+        <p class="guitarent">Guitarent weather</p>
+      </a>
+      <ul class="nav-links">
+        <li><a href="Website.html#Gibson" class="active">Gibson</a></li>
+        <li><a href="Website.html#Fender" class="active">Fender</a></li>
+        <li><a href="Website.html#Epiphone" class="active">Epiphone</a></li>
+        <li><a href="Website.html#Kramer" class="active">Kramer</a></li>
+        <li><a href="Website.html#PRS" class="active">PRS Guitars</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn"> Cart (<span id="cart-count">0</span>)</a>
+        <div id="nav-auth-container">
+          <a href="Sign_in.html" type="button" id="button">Sign In</a>
+        </div>  
+    </nav>
+  </header>
   <main class="weather-section">
     <div class="weather-card">
-      <h1>Check Shipping & Outdoor Weather</h1>
-      <p>Search your city or use your device location to check local conditions.</p>
+      <h1>Outdoor Weather</h1>
+      <p>What's the weather in your city?</p>
 
       <form id="weather-form">
         <div class="input-group">
