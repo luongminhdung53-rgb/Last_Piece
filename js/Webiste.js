@@ -1,4 +1,3 @@
-// Product Arrays with Real Brand Descriptions
 const Gibson = [
   {
     id: 1,
@@ -508,7 +507,6 @@ if (searchForm) {
     }
   });
 }
-// --- LIVE PAGE FILTER SEARCH ---
 document.addEventListener('DOMContentLoaded', function () {
   const searchToggleBtn = document.getElementById('search-toggle-btn');
   const searchModal = document.getElementById('search-modal');
@@ -516,21 +514,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const searchForm = document.getElementById('search-form');
   const searchInput = document.getElementById('search-input');
 
-  // Toggle modal open/close
   if (searchToggleBtn && searchModal) {
     searchToggleBtn.addEventListener('click', function () {
       searchModal.classList.remove('hidden');
       if (searchInput) searchInput.focus();
     });
   }
-
   if (closeSearchBtn && searchModal) {
     closeSearchBtn.addEventListener('click', function () {
       searchModal.classList.add('hidden');
     });
   }
 
-  // Ctrl+F Filter logic on submit
   if (searchForm) {
     searchForm.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -538,7 +533,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (!query) return;
 
-      // Close search modal overlay
       if (searchModal) {
         searchModal.classList.add('hidden');
       }
@@ -554,7 +548,6 @@ const featuredSection = document.querySelector('.featured-section');
         { name: 'PRS', data: typeof PRS_Guitars !== 'undefined' ? PRS_Guitars : [] }
       ];
 
-      // Filter each brand section live on the page
       brandList.forEach(b => {
         const section = document.getElementById(b.name);
         if (!section) return;
@@ -577,7 +570,7 @@ const featuredSection = document.querySelector('.featured-section');
             </div>
           `).join('');
         } else {
-          section.style.display = 'none'; // Hide non-matching sections
+          section.style.display = 'none';
         }
       });
     });
@@ -601,7 +594,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 document.addEventListener('DOMContentLoaded', function () {
-  // Combine all items into master catalog
+
   const masterCatalog = [
     ...(typeof Gibson !== 'undefined' ? Gibson.map(p => ({ ...p, brand: 'Gibson' })) : []),
     ...(typeof Fender !== 'undefined' ? Fender.map(p => ({ ...p, brand: 'Fender' })) : []),
@@ -610,7 +603,6 @@ document.addEventListener('DOMContentLoaded', function () {
     ...(typeof PRS_Guitars !== 'undefined' ? PRS_Guitars.map(p => ({ ...p, brand: 'PRS' })) : [])
   ];
 
-  // Helper to build HTML card
   function createFeaturedCardHTML(product, badgeText, badgeClass) {
     const rawPrice = String(product.price).replace(/[^0-9.]/g, '');
     return `
@@ -622,23 +614,20 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     `;
   }
-
-  // Render New Arrivals (Fallback to first 4 items if no 'isNew' flag set)
   const newArrivalsGrid = document.getElementById('new-arrivals-grid');
   if (newArrivalsGrid) {
     let newItems = masterCatalog.filter(item => item.isNew);
-    if (newItems.length === 0) newItems = masterCatalog.slice(0, 4); // Fallback
+    if (newItems.length === 0) newItems = masterCatalog.slice(0, 4); 
 
     newArrivalsGrid.innerHTML = newItems.slice(0, 4)
       .map(item => createFeaturedCardHTML(item, 'NEW', 'badge-new'))
       .join('');
   }
 
-  // Render Best Sellers (Fallback to next 4 items if no 'isBestSeller' flag set)
   const bestSellersGrid = document.getElementById('best-sellers-grid');
   if (bestSellersGrid) {
     let hotItems = masterCatalog.filter(item => item.isBestSeller);
-    if (hotItems.length === 0) hotItems = masterCatalog.slice(4, 8); // Fallback
+    if (hotItems.length === 0) hotItems = masterCatalog.slice(4, 8);
 
     bestSellersGrid.innerHTML = hotItems.slice(0, 4)
       .map(item => createFeaturedCardHTML(item, 'HOT', 'badge-hot'))
@@ -646,7 +635,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// Click handler for featured items -> Product detail transition
 function selectFeaturedProduct(brand, id) {
   const brandArray = window[brand] || window[brand === 'PRS' ? 'PRS_Guitars' : brand];
   if (!brandArray) return;
