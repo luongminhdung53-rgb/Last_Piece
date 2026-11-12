@@ -29,9 +29,8 @@
         <a href="weather.html" class="weather">☁</a>
         <a href="cart.html" class="cart-btn"> Cart (<span id="cart-count">0</span>)</a>
         <div id="nav-auth-container">
-          <a href="Sign_in.html" type="button" id="button">Sign In</a>
+          <a href="Sign_in.html" id="button">Sign In</a>
         </div>
-
       </div>
     </nav>
   </header>
@@ -59,7 +58,7 @@
         <div class="purchase-controls">
           <div class="quantity-selector">
             <button id="qty-minus">-</button>
-            <input type="number" id="qty-input" value="1" min="0" max="10">
+            <input type="number" id="qty-input" value="1" min="1" max="10">
             <button id="qty-plus">+</button>
           </div>
           <button class="add-to-cart-btn" id="add-to-cart-btn">
@@ -78,14 +77,25 @@
         </div>
       </div>
     </div>
+
+    <!-- Product Comment Section -->
+    <section class="comments-section">
+      <h2>Player Reviews & Comments</h2>
+      <form id="comment-form" class="comment-form">
+        <textarea id="comment-input" rows="3" placeholder="Write your review or question about this guitar..." required maxlength="500"></textarea>
+        <button type="submit" class="add-to-cart-btn" style="padding: 12px 24px; max-width: 220px;">
+          Post Comment
+        </button>
+      </form>
+      <div id="comments-list" class="comments-list"></div>
+    </section>
   </main>
+
   <footer>
     <div class="footer-container">
       <div>
         <h4>Company</h4>
-        <a href="Website.html#hero">
-          <p>About</p>
-        </a>
+        <a href="Website.html#hero"><p>About</p></a>
       </div>
       <div>
         <h4>Contact</h4>
@@ -94,26 +104,27 @@
     </div>
   </footer>
 
-  <script src="./js/product.js"></script>
-  <div id="chat-widget-container" class="chat-widget-container hidden">
-  <div class="chat-header">
-    <div class="chat-title">
-      <i class="fa-solid fa-robot"></i> Guitarent AI
-    </div>
-    <button id="close-chat-btn" class="close-chat-btn">&times;</button>
-  </div>
-  <iframe
-    src="https://www.chatbase.co/chatbot-iframe/eiq7oUjAeq1k1q9JCFwty"
-    width="100%"
-    height="100%"
-    frameborder="0"
-    allow="microphone"
-  ></iframe>
-</div>
+  <script type="module" src="./js/product.js"></script>
 
-<button id="open-chat-btn" class="chat-toggle-btn" title="Chat with Gui">
-  <i class="fa-solid fa-comment-dots"></i>
-</button>
+  <div id="chat-widget-container" class="chat-widget-container hidden">
+    <div class="chat-header">
+      <div class="chat-title">
+        <i class="fa-solid fa-robot"></i> Guitarent AI
+      </div>
+      <button id="close-chat-btn" class="close-chat-btn">×</button>
+    </div>
+    <iframe
+      src="https://www.chatbase.co/chatbot-iframe/eiq7oUjAeq1k1q9JCFwty"
+      width="100%"
+      height="100%"
+      frameborder="0"
+      allow="microphone"
+    ></iframe>
+  </div>
+
+  <button id="open-chat-btn" class="chat-toggle-btn" title="Chat with Gui">
+    <i class="fa-solid fa-comment-dots"></i>
+  </button>
 </body>
 
 </html>

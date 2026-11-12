@@ -1,4 +1,8 @@
+import { requireAuth } from './firebase-config.js';
+
 const API_KEY = "f7621194aa6137394a5d542626439a34";
+
+requireAuth();
 
 const weatherForm = document.getElementById("weather-form");
 const locationInput = document.getElementById("location-input");

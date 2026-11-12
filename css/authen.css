@@ -13,7 +13,6 @@ body.signin-body {
   min-height: 100vh;
 }
 
-/* Sign Up Background */
 body.signup-body {
   background: url(https://w0.peakpx.com/wallpaper/705/124/HD-wallpaper-gibson-guitar-sounds-music-blues.jpg) center/cover no-repeat;
   display: flex;
@@ -22,16 +21,14 @@ body.signup-body {
   min-height: 100vh;
 }
 
-.signin-section,
-.signup-section {
+.signin-section, .signup-section {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.signin-container,
-.signup-container {
+.signin-container, .signup-container {
   background: white;
   color: black;
   width: 400px;
@@ -40,29 +37,10 @@ body.signup-body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.signin-container h1,
-.signup-container h1 {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.signin-container p,
-.signup-container p {
-  text-align: center;
-  margin-bottom: 25px;
-  color: gray;
-}
-
-.input-box {
-  margin-bottom: 20px;
-}
-
-.input-box label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
+.signin-container h1, .signup-container h1 { text-align: center; margin-bottom: 10px; }
+.signin-container p, .signup-container p { text-align: center; margin-bottom: 25px; color: gray; }
+.input-box { margin-bottom: 20px; }
+.input-box label { display: block; margin-bottom: 8px; font-weight: bold; }
 .input-box input {
   width: 100%;
   padding: 12px;
@@ -71,10 +49,7 @@ body.signup-body {
   outline: none;
   transition: 0.3s;
 }
-
-.input-box input:focus {
-  border-color: gold;
-}
+.input-box input:focus { border-color: gold; }
 
 .options {
   display: flex;
@@ -83,15 +58,8 @@ body.signup-body {
   margin-bottom: 20px;
   font-size: 14px;
 }
-
-.options a {
-  text-decoration: none;
-  color: black;
-}
-
-.options a:hover {
-  color: gold;
-}
+.options a { text-decoration: none; color: black; }
+.options a:hover { color: gold; }
 
 #button {
   display: block;
@@ -107,38 +75,9 @@ body.signup-body {
   border: 2px solid transparent;
   cursor: pointer;
 }
-
-#button:hover {
-  background-color: black;
-  color: gold;
-  transform: scale(1.02);
-}
-
-.signup-link,
-.login-link {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.signup-link a,
-.login-link a {
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.signup-link a:hover,
-.login-link a:hover {
-  color: gold;
-}
-
-.terms {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-
-.terms span {
-  margin-left: 20px;
-}
+#button:hover { background-color: black; color: gold; transform: scale(1.02); }
+.signup-link, .login-link { margin-top: 20px; text-align: center; }
+.signup-link a, .login-link a { color: black; font-weight: bold; text-decoration: none; }
+.signup-link a:hover, .login-link a:hover { color: gold; }
+.terms { display: flex; align-items: center; margin-bottom: 20px; font-size: 14px; }
+.terms span { margin-left: 20px; }

@@ -1,52 +1,44 @@
+import { auth, db } from './firebase-config.js';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 document.addEventListener('DOMContentLoaded', () => {
+  // If user is already logged in, redirect straight to Website.html
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = 'Website.html';
+    }
+  });
+
   const signinForm = document.getElementById('signin-form');
   const signupForm = document.getElementById('signup-form');
 
-  function getRegisteredUsers() {
-    return JSON.parse(localStorage.getItem('registeredUsers')) || [];
-  }
-
   if (signinForm) {
-    signinForm.addEventListener('submit', (e) => {
+    signinForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const emailInput = document.getElementById('signin-email').value.trim();
       const passwordInput = document.getElementById('signin-password').value;
 
-      const registeredUsers = getRegisteredUsers();
-
-      const existingUser = registeredUsers.find(
-        (user) => user.email.toLowerCase() === emailInput.toLowerCase()
-      );
-
-      if (existingUser) {
-
-        if (existingUser.password !== passwordInput) {
-          alert('Incorrect password. Please try again.');
-          return;
-        }
-        localStorage.setItem('currentUser', JSON.stringify(existingUser));
-        alert(`Welcome back, ${existingUser.name}!`);
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+        const user = userCredential.user;
+        alert(`Welcome back, ${user.displayName || user.email}!`);
         window.location.href = 'Website.html';
-      } else {
-
-        const fallbackUser = {
-          name: emailInput.split('@')[0],
-          email: emailInput,
-          password: passwordInput,
-          phone: '',
-          address: ''
-        };
-        registeredUsers.push(fallbackUser);
-        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-        localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
-        window.location.href = 'Website.html';
+      } catch (error) {
+        console.error("Sign In Error:", error);
+        alert(`Sign in failed: ${error.message}`);
       }
     });
   }
 
   if (signupForm) {
-    signupForm.addEventListener('submit', (e) => {
+    signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const name = document.getElementById('signup-fullname').value.trim();
@@ -59,31 +51,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const registeredUsers = getRegisteredUsers();
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-      const userExists = registeredUsers.some(
-        (user) => user.email.toLowerCase() === email.toLowerCase()
-      );
+        await updateProfile(user, { displayName: name });
 
-      if (userExists) {
-        alert('An account with this email already exists. Please sign in.');
-        window.location.href = 'Sign_in.html';
-        return;
+        // Create user profile document in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          name: name,
+          email: email,
+          phone: '',
+          address: '',
+          createdAt: new Date().toISOString()
+        });
+
+        // Initialize empty Firestore cart
+        await setDoc(doc(db, "carts", user.uid), { items: [] });
+
+        alert('Account created successfully!');
+        window.location.href = 'Website.html';
+      } catch (error) {
+        console.error("Sign Up Error:", error);
+        alert(`Sign up failed: ${error.message}`);
       }
-
-      const newUser = {
-        name: name,
-        email: email,
-        password: password,
-        phone: '',
-        address: ''
-      };
-
-      registeredUsers.push(newUser);
-      localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
-
-      window.location.href = 'Website.html';
     });
   }
 });

@@ -36,21 +36,9 @@ body {
   margin: 0;
 }
 
-.nav-links li {
-  margin-left: 20px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: wheat;
-  font-size: 18px;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+.nav-links li { margin-left: 20px; }
+.nav-links a { text-decoration: none; color: wheat; font-size: 18px; }
+.nav-actions { display: flex; align-items: center; gap: 15px; }
 
 .cart-btn {
   color: wheat;
@@ -70,6 +58,7 @@ body {
   border-radius: 8px;
   font-weight: 600;
 }
+
 .weather {
   display: inline-flex;
   align-items: center;
@@ -77,7 +66,6 @@ body {
   width: 40px;
   height: 40px;
   padding: 8px 8px;
-
   background-color: rgb(0, 110, 255);
   color: white;
   text-decoration: none;
@@ -88,6 +76,7 @@ body {
   border: 2px solid transparent;
   margin-right: 100px;
 }
+
 .product-container {
   max-width: 1100px;
   margin: 100px auto 40px;
@@ -100,11 +89,7 @@ body {
   color: #694207;
 }
 
-.category-path span,
-#product-brand-path,
-#product-title-path {
-  margin-right: 10px;
-}
+.category-path span, #product-brand-path, #product-title-path { margin-right: 10px; }
 
 .product-wrapper {
   display: grid;
@@ -136,28 +121,11 @@ body {
   margin-bottom: 10px;
 }
 
-.product-info-section h1 {
-  font-size: 32px;
-  margin-bottom: 15px;
-}
+.product-info-section h1 { font-size: 32px; margin-bottom: 15px; }
+.price-tag { font-size: 32px; color: #f5deb3; font-weight: bold; margin-bottom: 20px; }
+.description { line-height: 1.6; margin-bottom: 25px; }
 
-.price-tag {
-  font-size: 32px;
-  color: #f5deb3;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.description {
-  line-height: 1.6;
-  margin-bottom: 25px;
-}
-
-.purchase-controls {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-}
+.purchase-controls { display: flex; gap: 15px; margin-bottom: 30px; }
 
 .quantity-selector {
   display: flex;
@@ -199,9 +167,7 @@ body {
   transition: 0.3s;
 }
 
-.add-to-cart-btn:hover {
-  background: #f5deb3;
-}
+.add-to-cart-btn:hover { background: #f5deb3; }
 
 .specs-box {
   background: #3b240b !important;
@@ -209,19 +175,9 @@ body {
   border-radius: 8px;
 }
 
-.specs-box h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #d4a853;
-}
-
-.specs-box ul {
-  list-style: none;
-}
-
-.specs-box li {
-  margin-bottom: 8px;
-}
+.specs-box h3 { font-size: 18px; margin-bottom: 10px; color: #d4a853; }
+.specs-box ul { list-style: none; }
+.specs-box li { margin-bottom: 8px; }
 
 footer {
   background: #362904;
@@ -229,54 +185,12 @@ footer {
   color: wheat;
 }
 
-.footer-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
+.footer-container { display: flex; justify-content: space-around; flex-wrap: wrap; }
+.footer-container div h4 { margin-bottom: 15px; }
+.footer-container div p { margin-bottom: 8px; cursor: pointer; }
+.footer-container div p:hover { color: gold; }
+.footer-container div a { text-decoration: none; color: inherit; }
 
-.footer-container div h4 {
-  margin-bottom: 15px;
-}
-
-.footer-container div p {
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-.footer-container div p:hover {
-  color: gold;
-}
-
-.footer-container div a {
-  text-decoration: none;
-  color: inherit;
-}
-.theme-fender .product-wrapper {
-  background-color: #840c0c;
-}
-
-.theme-epiphone .product-wrapper {
-  background-color: #5f2b03;
-}
-
-.theme-kramer .product-wrapper {
-  background-color: #924242;
-}
-
-.theme-prs .product-wrapper {
-  background-color: #a95506;
-}
-
-.theme-gibson .product-wrapper {
-  background-color: #5a3b1a;
-}
-
-#remove:hover {
-  background-color: wheat;
-  color: #840c0c;
-}
-/* Floating Toggle Button */
 .chat-toggle-btn {
   position: fixed;
   bottom: 25px;
@@ -294,12 +208,8 @@ footer {
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.chat-toggle-btn:hover {
-  transform: scale(1.08);
-  background-color: #e6c887;
-}
+.chat-toggle-btn:hover { transform: scale(1.08); background-color: #e6c887; }
 
-/* Floating Window Container */
 .chat-widget-container {
   position: fixed;
   bottom: 95px;
@@ -319,11 +229,8 @@ footer {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.chat-widget-container.hidden {
-  display: none;
-}
+.chat-widget-container.hidden { display: none; }
 
-/* Header Bar */
 .chat-header {
   background-color: #3b240b;
   color: #d4a853;
@@ -334,25 +241,84 @@ footer {
   font-weight: bold;
 }
 
-.chat-title i {
-  margin-right: 8px;
+.chat-title i { margin-right: 8px; }
+.close-chat-btn { background: none; border: none; color: #d8c8b8; font-size: 1.6rem; cursor: pointer; line-height: 1; }
+.close-chat-btn:hover { color: #fff; }
+.chat-widget-container iframe { flex: 1; border: none; }
+
+/* Comments Section */
+.comments-section {
+  margin-top: 40px;
+  background: #5a3b1a;
+  color: wheat;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.close-chat-btn {
-  background: none;
-  border: none;
+.comments-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #d4a853;
+  border-bottom: 2px solid #3b240b;
+  padding-bottom: 10px;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #8b5a2b;
+  background-color: #3b240b;
+  color: wheat;
+  font-size: 15px;
+  resize: vertical;
+  outline: none;
+}
+
+.comment-form textarea:focus {
+  border-color: #d4a853;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.comment-card {
+  background-color: #3b240b;
+  padding: 18px;
+  border-radius: 8px;
+  border-left: 4px solid #d4a853;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #d4a853;
+}
+
+.comment-date {
   color: #d8c8b8;
-  font-size: 1.6rem;
-  cursor: pointer;
-  line-height: 1;
+  font-size: 12px;
 }
 
-.close-chat-btn:hover {
-  color: #fff;
-}
-
-/* Iframe adjustment */
-.chat-widget-container iframe {
-  flex: 1;
-  border: none;
+.comment-body {
+  line-height: 1.5;
+  color: wheat;
+  word-break: break-word;
 }

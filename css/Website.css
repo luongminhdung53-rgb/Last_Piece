@@ -105,7 +105,6 @@
   width: 40px;
   height: 40px;
   padding: 8px 8px;
-
   background-color: rgb(0, 110, 255);
   color: white;
   text-decoration: none;
@@ -117,7 +116,6 @@
   margin-right: -100px;
 }
 
-/* Compact Search Icon Button */
 .search-icon-btn {
   background: transparent;
   border: none;
@@ -133,7 +131,6 @@
   color: #fff;
 }
 
-/* Modal Overlay */
 .search-modal {
   position: fixed;
   top: 0;
@@ -210,7 +207,6 @@
   color: #fff;
 }
 
-/* Hero Section */
 .hero {
   height: 90vh;
   background: url(//www.gibson.com/cdn/shop/files/Hero_banner_alt_022326_GibsonUSA_02_BindingStation_0409.jpg?v=1775671981) center/cover no-repeat;
@@ -251,6 +247,7 @@
   background: #d4a853;
   color: #3b240b;
 }
+
 .featured-section {
   background-color: #f5deb3;
   width: 100%;
@@ -281,14 +278,12 @@
   font-size: 0.9rem;
 }
 
-/* Featured Horizontal Grid */
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
 }
 
-/* Card Styling & Badges */
 .featured-card {
   position: relative;
   background: #3b240b;
@@ -324,7 +319,6 @@
   font-size: 1.1rem;
 }
 
-/* Badge Overlay */
 .badge {
   position: absolute;
   top: 12px;
@@ -345,14 +339,14 @@
   background-color: #c62828;
   color: #fff;
 }
-/* Featured Products */
+
 .featured {
   padding: 80px 50px;
   text-align: center;
   background-color: #d8c3a5;
 }
 
-.featured img#logo {
+.featured img.brand-logo {
   margin-bottom: 15px;
 }
 
@@ -364,7 +358,6 @@
   margin-bottom: 30px;
 }
 
-/* Product Card */
 .product-card {
   background: #694207;
   padding: 20px;
@@ -409,24 +402,11 @@
   margin-bottom: 0;
 }
 
-/* Brand Card Backgrounds */
-#Fender .product-card {
-  background-color: #840c0c;
-}
+#Fender .product-card { background-color: #840c0c; }
+#Epiphone .product-card { background-color: #5f2b03; }
+#Kramer .product-card { background-color: #924242; }
+#PRS .product-card { background-color: #a95506; }
 
-#Epiphone .product-card {
-  background-color: #5f2b03;
-}
-
-#Kramer .product-card {
-  background-color: #924242;
-}
-
-#PRS .product-card {
-  background-color: #a95506;
-}
-
-/* Footer */
 footer {
   background: #362904;
   padding: 50px;
@@ -439,24 +419,11 @@ footer {
   flex-wrap: wrap;
 }
 
-.footer-container div h4 {
-  margin-bottom: 15px;
-}
+.footer-container div h4 { margin-bottom: 15px; }
+.footer-container div p { margin-bottom: 8px; cursor: pointer; }
+.footer-container div p:hover { color: gold; }
+.footer-container div a { text-decoration: none; color: inherit; }
 
-.footer-container div p {
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-.footer-container div p:hover {
-  color: gold;
-}
-
-.footer-container div a {
-  text-decoration: none;
-  color: inherit;
-}
-/* Floating Toggle Button */
 .chat-toggle-btn {
   position: fixed;
   bottom: 25px;
@@ -479,7 +446,6 @@ footer {
   background-color: #e6c887;
 }
 
-/* Floating Window Container */
 .chat-widget-container {
   position: fixed;
   bottom: 95px;
@@ -499,11 +465,8 @@ footer {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.chat-widget-container.hidden {
-  display: none;
-}
+.chat-widget-container.hidden { display: none; }
 
-/* Header Bar */
 .chat-header {
   background-color: #3b240b;
   color: #d4a853;
@@ -514,9 +477,7 @@ footer {
   font-weight: bold;
 }
 
-.chat-title i {
-  margin-right: 8px;
-}
+.chat-title i { margin-right: 8px; }
 
 .close-chat-btn {
   background: none;
@@ -527,12 +488,5 @@ footer {
   line-height: 1;
 }
 
-.close-chat-btn:hover {
-  color: #fff;
-}
-
-/* Iframe adjustment */
-.chat-widget-container iframe {
-  flex: 1;
-  border: none;
-}
+.close-chat-btn:hover { color: #fff; }
+.chat-widget-container iframe { flex: 1; border: none; }
