@@ -8,9 +8,12 @@ import {
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Redirect immediately if user already has an active session
+  console.log("Authen.js loaded and DOM fully parsed.");
+
+  // If user is already logged in, redirect straight to Website.html
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      console.log("Active session detected for:", user.email);
       window.location.href = 'Website.html';
     }
   });
@@ -21,17 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (signinForm) {
     signinForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      console.log("Sign-in form submitted.");
 
       const emailInput = document.getElementById('signin-email').value.trim();
       const passwordInput = document.getElementById('signin-password').value;
 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
-        const user = userCredential.user;
-        alert(`Welcome back, ${user.displayName || user.email}!`);
+        console.log("Sign-in successful for:", userCredential.user.email);
         window.location.href = 'Website.html';
       } catch (error) {
-        console.error("Sign In Error:", error);
+        console.error("Sign In Error code:", error.code, "Message:", error.message);
         alert(`Sign in failed: ${error.message}`);
       }
     });
@@ -40,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      console.log("Sign-up form submitted.");
 
       const name = document.getElementById('signup-fullname').value.trim();
       const email = document.getElementById('signup-email').value.trim();
@@ -52,28 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
+        console.log("Attempting to create user in Firebase Auth...");
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+        console.log("User successfully created in Firebase Auth! UID:", user.uid);
 
         await updateProfile(user, { displayName: name });
+        console.log("Display name updated successfully.");
 
-        // Create user profile document in Firestore
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          name: name,
-          email: email,
-          phone: '',
-          address: '',
-          createdAt: new Date().toISOString()
-        });
+        // Separate try/catch for Firestore so a rule failure doesn't block Auth
+        try {
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            name: name,
+            email: email,
+            phone: '',
+            address: '',
+            createdAt: new Date().toISOString()
+          });
+          console.log("Firestore user document created.");
 
-        // Initialize empty Firestore cart
-        await setDoc(doc(db, "carts", user.uid), { items: [] });
+          await setDoc(doc(db, "carts", user.uid), { items: [] });
+          console.log("Firestore cart document created.");
+        } catch (firestoreError) {
+          console.error("Firestore database write warning (Check security rules):", firestoreError);
+        }
 
         alert('Account created successfully!');
         window.location.href = 'Website.html';
       } catch (error) {
-        console.error("Sign Up Error:", error);
+        console.error("Sign Up Error code:", error.code, "Message:", error.message);
         alert(`Sign up failed: ${error.message}`);
       }
     });

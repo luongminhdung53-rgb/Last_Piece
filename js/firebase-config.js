@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD7oR1G6B7Aj6bs12cHhtcR6TU5VpdFDk8",
+  apiKey: "AIzaSyD7oRlG6B7Aj6bs12cHhtcR6TU5VpdFDk8",
   authDomain: "jsi-project-eff8f.firebaseapp.com",
   projectId: "jsi-project-eff8f",
   storageBucket: "jsi-project-eff8f.firebasestorage.app",
@@ -15,7 +15,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Global Auth Guard: Redirects to Sign_in.html if not logged in
 export function requireAuth(callback) {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
