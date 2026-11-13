@@ -2,9 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD7oRlG6B7Aj6bs12cHhtcR6TU5VpdFDk8",
+  apiKey: "AIzaSyD7oR1G6B7Aj6bs12cHhtcR6TU5VpdFDk8",
   authDomain: "jsi-project-eff8f.firebaseapp.com",
   projectId: "jsi-project-eff8f",
   storageBucket: "jsi-project-eff8f.firebasestorage.app",
@@ -12,12 +11,11 @@ const firebaseConfig = {
   appId: "1:512564600436:web:54c75dd5359ecf036d3b21"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Global Auth Guard: Forces login before accessing protected pages
+// Global Auth Guard: Redirects to Sign_in.html if not logged in
 export function requireAuth(callback) {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -25,18 +23,19 @@ export function requireAuth(callback) {
       return;
     }
 
-    // Update Navbar Profile Button
     const authContainer = document.getElementById('nav-auth-container');
     if (authContainer) {
       const displayName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
-      authContainer.innerHTML = `
-        <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
-          ${displayName}
-        </a>
-      `;
+      authContainer.innerHTML = '';
+      const profileLink = document.createElement('a');
+      profileLink.href = 'profile.html';
+      profileLink.id = 'button';
+      profileLink.style.backgroundColor = '#d4a853';
+      profileLink.style.color = '#3b240b';
+      profileLink.textContent = displayName;
+      authContainer.appendChild(profileLink);
     }
 
-    // Update Global Cart Badge from Firestore
     await syncCartBadge(user.uid);
 
     if (callback) callback(user);

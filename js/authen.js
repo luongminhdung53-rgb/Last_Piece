@@ -8,7 +8,7 @@ import {
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-  // If user is already logged in, redirect straight to Website.html
+  // Redirect immediately if user already has an active session
   onAuthStateChanged(auth, (user) => {
     if (user) {
       window.location.href = 'Website.html';
