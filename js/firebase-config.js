@@ -2,16 +2,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// TODO: Replace with your actual Firebase Project Configuration from Firebase Console
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD7oRlG6B7Aj6bs12cHhtcR6TU5VpdFDk8",
+  authDomain: "jsi-project-eff8f.firebaseapp.com",
+  projectId: "jsi-project-eff8f",
+  storageBucket: "jsi-project-eff8f.firebasestorage.app",
+  messagingSenderId: "512564600436",
+  appId: "1:512564600436:web:54c75dd5359ecf036d3b21"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
