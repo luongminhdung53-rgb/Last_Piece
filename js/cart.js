@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Order placed successfully!');
       cartItems = [];
       saveAndRender();
-      window.location.href = 'Website.html';
+      window.location.href = 'index.html';
     });
   }
 });

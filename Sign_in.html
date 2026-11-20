@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - Guitarent</title>
+  <link rel="stylesheet" href="./css/authen.css">
+</head>
+
+<body class="signin-body">
+
+  <section class="signin-section">
+    <div class="signin-container">
+      <h1>Welcome Back</h1>
+      <p>Sign in to access Guitarent</p>
+
+      <form id="signin-form">
+        <div class="input-box">
+          <h3>Email</h3>
+          <input type="email" id="signin-email" placeholder="Enter your email" required maxlength="50">
+        </div>
+
+        <div class="input-box">
+          <h3>Password</h3>
+          <input type="password" id="signin-password" placeholder="Enter your password" required minlength="8" maxlength="20">
+        </div>
+
+        <div class="options">
+          <label>
+            <input type="checkbox">
+            Remember Me
+          </label>
+          <a href="#">Forgot Password?</a>
+        </div>
+        <p class="signup-link">
+          Don’t have an account? <a href="Sign_up.html">Sign Up</a>
+        </p>
+        <button type="submit" id="button">Sign In</button>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./js/authen.js"></script>
+</body>
+
+</html>

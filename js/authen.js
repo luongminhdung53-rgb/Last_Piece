@@ -10,11 +10,10 @@ import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase
 document.addEventListener('DOMContentLoaded', () => {
   console.log("Authen.js loaded and DOM fully parsed.");
 
-  // If user is already logged in, redirect straight to Website.html
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("Active session detected for:", user.email);
-      window.location.href = 'Website.html';
+      window.location.href = 'index.html';
     }
   });
 
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
         console.log("Sign-in successful for:", userCredential.user.email);
-        window.location.href = 'Website.html';
+        window.location.href = 'index.html';
       } catch (error) {
         console.error("Sign In Error code:", error.code, "Message:", error.message);
         alert(`Sign in failed: ${error.message}`);
@@ -83,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         alert('Account created successfully!');
-        window.location.href = 'Website.html';
+        window.location.href = 'index.html';
       } catch (error) {
         console.error("Sign Up Error code:", error.code, "Message:", error.message);
         alert(`Sign up failed: ${error.message}`);

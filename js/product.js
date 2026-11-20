@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (!guitarDataStr) {
     alert("No guitar selected. Returning to store.");
-    window.location.href = 'Website.html';
+    window.location.href = 'index.html';
     return;
   }
 
