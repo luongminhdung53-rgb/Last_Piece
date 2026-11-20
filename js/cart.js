@@ -220,7 +220,7 @@ async function handleCheckout() {
     cartItems = [];
     await saveAndRender();
     alert('Order placed successfully!');
-    window.location.href = 'Website.html';
+    window.location.href = 'index.html';
   } catch (error) {
     console.error("Checkout failed:", error.code, error.message);
     alert("Could not complete checkout: " + error.message);
