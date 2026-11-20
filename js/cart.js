@@ -138,3 +138,18 @@ function updateCartBadge() {
     badge.textContent = totalQty;
   }
 }
+function watchNavbarChanges() {
+  let authContainer = document.getElementById('nav-auth-container');
+  let badge = document.getElementById('cart-count');
+
+  if (!authContainer || !badge) return;
+
+  let observer = new MutationObserver(() => {
+    let expectedTotal = cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+    if (badge.textContent !== String(expectedTotal)) {
+      badge.textContent = expectedTotal;
+    }
+  });
+
+  observer.observe(authContainer, { childList: true, subtree: true, characterData: true });
+}
