@@ -64,6 +64,15 @@ function renderCart() {
   if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
 }
 
+function updateCartCount() {
+  let cart = JSON.parse(localStorage.getItem('guitarentCart')) || [];
+  let totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+
+  let cartBtn = document.getElementById('cart-btn');
+  if (cartBtn) {
+    cartBtn.textContent = `Cart (${totalItems})`;
+  }
+}
 window.changeItemQty = function(index, change) {
   cartItems[index].quantity += change;
   if (cartItems[index].quantity <= 0) {
