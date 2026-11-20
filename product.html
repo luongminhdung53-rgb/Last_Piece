@@ -31,38 +31,36 @@
   </header>
 
   <main class="product-container">
-    <div id="product-loading" class="specs-box product-loading">
+    <div id="product-loading" class="specs-box">
       <h3>Loading guitar details...</h3>
     </div>
 
     <div id="product-detail-view" class="product-wrapper is-hidden">
-      <div class="product-image-box">
-        <img id="product-img" src="" alt="Guitar Image" class="product-detail-img">
+      <div>
+        <img id="product-img" src="" alt="Guitar Image">
       </div>
 
-      <div class="product-info-col">
+      <div>
         <span id="product-brand" class="brand-badge">Brand</span>
-        <h1 id="product-name" class="product-title">Guitar Name</h1>
+        <h1 id="product-name">Guitar Name</h1>
         <p id="product-price" class="price-tag">$0</p>
 
-        <div class="specs-box product-desc-box">
-          <h3 class="specs-heading">Description & Specs</h3>
-          <p id="product-desc" class="specs-text">Loading description...</p>
+        <div class="specs-box">
+          <h3>Description & Specs</h3>
+          <p id="product-desc">Loading description...</p>
         </div>
 
-        <div class="product-actions-row">
-          <div class="quantity-selector">
-            <button type="button" id="qty-minus">-</button>
-            <input type="number" id="qty-input" value="1" min="1" readonly>
-            <button type="button" id="qty-plus">+</button>
-          </div>
-
-          <button type="button" id="add-to-cart-btn" class="add-to-cart-btn">
-            Add to Cart
-          </button>
+        <div class="quantity-selector">
+          <button type="button" id="qty-minus">-</button>
+          <input type="number" id="qty-input" value="1" min="1" readonly>
+          <button type="button" id="qty-plus">+</button>
         </div>
 
-        <p id="cart-feedback" class="cart-feedback"></p>
+        <button type="button" id="add-to-cart-btn" class="add-to-cart-btn">
+          Add to Cart
+        </button>
+
+        <p id="cart-feedback"></p>
       </div>
     </div>
   </main>
