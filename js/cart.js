@@ -1,12 +1,30 @@
-import { requireAuth } from './firebase-config.js';
-
-requireAuth();
+import { auth } from './firebase-config.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 let cartItems = [];
-let activeStorageKey = 'guitarentCart';
 
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = 'Sign_in.html';
+      return;
+    }
+
+    let authContainer = document.getElementById('nav-auth-container');
+    if (authContainer) {
+      let displayName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
+      authContainer.innerHTML = `
+        <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
+          ${displayName}
+        </a>
+      `;
+    }
+
+    // Re-sync badge after auth finishes so nothing resets it to 0
+    updateCartBadge();
+  });
 
   let checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
@@ -21,21 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadCart() {
-  // Check 'guitarentCart' first, fall back to 'cart' in case product.js uses 'cart'
   let savedGuitarentCart = JSON.parse(localStorage.getItem('guitarentCart'));
   let savedGenericCart = JSON.parse(localStorage.getItem('cart'));
 
   if (Array.isArray(savedGuitarentCart) && savedGuitarentCart.length > 0) {
-    activeStorageKey = 'guitarentCart';
     cartItems = savedGuitarentCart;
   } else if (Array.isArray(savedGenericCart) && savedGenericCart.length > 0) {
-    activeStorageKey = 'cart';
     cartItems = savedGenericCart;
   } else {
     cartItems = savedGuitarentCart || savedGenericCart || [];
   }
 
-  // Ensure every item has a valid numeric quantity
   cartItems = cartItems.map(item => ({
     ...item,
     quantity: Number(item.quantity) || 1
