@@ -3,22 +3,53 @@ import { requireAuth } from './firebase-config.js';
 requireAuth();
 
 let cartItems = [];
+let activeStorageKey = 'guitarentCart';
 
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
+
+  let checkoutBtn = document.getElementById('checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', () => {
+      if (cartItems.length === 0) return;
+      alert('Order placed successfully!');
+      cartItems = [];
+      saveAndRender();
+      window.location.href = 'Website.html';
+    });
+  }
 });
 
 function loadCart() {
-  cartItems = JSON.parse(localStorage.getItem('guitarentCart')) || [];
+  // Check 'guitarentCart' first, fall back to 'cart' in case product.js uses 'cart'
+  let savedGuitarentCart = JSON.parse(localStorage.getItem('guitarentCart'));
+  let savedGenericCart = JSON.parse(localStorage.getItem('cart'));
+
+  if (Array.isArray(savedGuitarentCart) && savedGuitarentCart.length > 0) {
+    activeStorageKey = 'guitarentCart';
+    cartItems = savedGuitarentCart;
+  } else if (Array.isArray(savedGenericCart) && savedGenericCart.length > 0) {
+    activeStorageKey = 'cart';
+    cartItems = savedGenericCart;
+  } else {
+    cartItems = savedGuitarentCart || savedGenericCart || [];
+  }
+
+  // Ensure every item has a valid numeric quantity
+  cartItems = cartItems.map(item => ({
+    ...item,
+    quantity: Number(item.quantity) || 1
+  }));
+
   renderCart();
   updateCartBadge();
 }
 
 function renderCart() {
-  const emptyMsg = document.getElementById('empty-cart-msg');
-  const itemsContainer = document.getElementById('cart-items-container');
-  const summaryBox = document.getElementById('cart-summary');
-  const subtotalEl = document.getElementById('cart-subtotal');
+  let emptyMsg = document.getElementById('empty-cart-msg');
+  let itemsContainer = document.getElementById('cart-items-container');
+  let summaryBox = document.getElementById('cart-summary');
+  let subtotalEl = document.getElementById('cart-subtotal');
 
   if (!itemsContainer) return;
 
@@ -34,13 +65,15 @@ function renderCart() {
 
   let subtotal = 0;
   itemsContainer.innerHTML = cartItems.map((item, index) => {
-    const itemTotal = Number(item.price) * item.quantity;
+    let qty = Number(item.quantity) || 1;
+    let itemTotal = Number(item.price) * qty;
+    let imageSrc = item.img || item.image || item.url || '';
     subtotal += itemTotal;
 
     return `
       <div class="product-wrapper" style="margin-bottom: 20px; grid-template-columns: 140px 1fr auto; align-items: center; padding: 20px;">
         <div style="width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; background: #3b240b; border-radius: 8px; padding: 10px;">
-          <img src="${item.img}" alt="${item.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+          <img src="${imageSrc}" alt="${item.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
         </div>
         <div>
           <span class="brand-badge">${item.brand || 'Guitar'}</span>
@@ -50,7 +83,7 @@ function renderCart() {
         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
           <div class="quantity-selector">
             <button onclick="window.changeItemQty(${index}, -1)">-</button>
-            <input type="number" value="${item.quantity}" readonly>
+            <input type="number" value="${qty}" readonly>
             <button onclick="window.changeItemQty(${index}, 1)">+</button>
           </div>
           <button onclick="window.removeCartItem(${index})" style="background-color: #840c0c; color: wheat; border: none; border-radius: 8px; padding: 8px 14px; font-weight: bold; cursor: pointer;">
@@ -64,17 +97,8 @@ function renderCart() {
   if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
 }
 
-function updateCartCount() {
-  let cart = JSON.parse(localStorage.getItem('guitarentCart')) || [];
-  let totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
-
-  let cartBtn = document.getElementById('cart-btn');
-  if (cartBtn) {
-    cartBtn.textContent = `Cart (${totalItems})`;
-  }
-}
 window.changeItemQty = function(index, change) {
-  cartItems[index].quantity += change;
+  cartItems[index].quantity = (Number(cartItems[index].quantity) || 1) + change;
   if (cartItems[index].quantity <= 0) {
     cartItems.splice(index, 1);
   }
@@ -88,26 +112,15 @@ window.removeCartItem = function(index) {
 
 function saveAndRender() {
   localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
+  localStorage.setItem('cart', JSON.stringify(cartItems));
   renderCart();
   updateCartBadge();
 }
 
 function updateCartBadge() {
-  const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const badge = document.getElementById('cart-count');
-  if (badge) badge.textContent = totalQty;
-}
-
-// Checkout button logic
-document.addEventListener('DOMContentLoaded', () => {
-  const checkoutBtn = document.getElementById('checkout-btn');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-      if (cartItems.length === 0) return;
-      alert('Order placed successfully!');
-      cartItems = [];
-      saveAndRender();
-      window.location.href = 'index.html';
-    });
+  let totalQty = cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+  let badge = document.getElementById('cart-count');
+  if (badge) {
+    badge.textContent = totalQty;
   }
-});
+}
