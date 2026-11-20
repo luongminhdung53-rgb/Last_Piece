@@ -1,62 +1,119 @@
-import { auth } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 let cartItems = [];
+let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadCart();
+  // Show cached local items right away so the page doesn't feel blank while Firestore loads
+  loadFromLocalCache();
+  watchNavbarChanges();
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'Sign_in.html';
       return;
     }
 
-    let authContainer = document.getElementById('nav-auth-container');
-    if (authContainer) {
-      let displayName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
-      authContainer.innerHTML = `
-        <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
-          ${displayName}
-        </a>
-      `;
-    }
-
-    // Re-sync badge after auth finishes so nothing resets it to 0
+    currentUser = user;
+    updateNavbarUser(user);
+    await loadCartFromFirestore(user.uid);
     updateCartBadge();
   });
 
   let checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-      if (cartItems.length === 0) return;
-      alert('Order placed successfully!');
-      cartItems = [];
-      saveAndRender();
-      window.location.href = 'Website.html';
-    });
+    checkoutBtn.addEventListener('click', handleCheckout);
   }
 });
 
-function loadCart() {
+function updateNavbarUser(user) {
+  let authContainer = document.getElementById('nav-auth-container');
+  if (!authContainer) return;
+
+  let displayName = user.displayName
+    ? user.displayName.split(' ')[0]
+    : user.email.split('@')[0];
+
+  authContainer.innerHTML = `
+    <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
+      ${displayName}
+    </a>
+  `;
+}
+
+function normalizeCartItems(items) {
+  if (!Array.isArray(items)) return [];
+  return items.map((item) => ({
+    ...item,
+    price: Number(item.price) || 0,
+    quantity: Number(item.quantity) || 1
+  }));
+}
+
+function loadFromLocalCache() {
   let savedGuitarentCart = JSON.parse(localStorage.getItem('guitarentCart'));
   let savedGenericCart = JSON.parse(localStorage.getItem('cart'));
 
   if (Array.isArray(savedGuitarentCart) && savedGuitarentCart.length > 0) {
-    cartItems = savedGuitarentCart;
+    cartItems = normalizeCartItems(savedGuitarentCart);
   } else if (Array.isArray(savedGenericCart) && savedGenericCart.length > 0) {
-    cartItems = savedGenericCart;
+    cartItems = normalizeCartItems(savedGenericCart);
   } else {
-    cartItems = savedGuitarentCart || savedGenericCart || [];
+    cartItems = [];
   }
-
-  cartItems = cartItems.map(item => ({
-    ...item,
-    quantity: Number(item.quantity) || 1
-  }));
 
   renderCart();
   updateCartBadge();
+}
+
+async function loadCartFromFirestore(uid) {
+  try {
+    let cartRef = doc(db, 'carts', uid);
+    let cartSnap = await getDoc(cartRef);
+
+    if (cartSnap.exists()) {
+      let data = cartSnap.data();
+      cartItems = normalizeCartItems(data.items);
+    } else if (cartItems.length > 0) {
+      // First time user has a Firestore cart doc: sync existing local cart up to Firestore
+      await saveCartToFirestore(uid, cartItems);
+    } else {
+      cartItems = [];
+    }
+
+    syncLocalCache();
+    renderCart();
+    updateCartBadge();
+  } catch (error) {
+    console.error("Failed to load cart from Firestore:", error.code, error.message);
+  }
+}
+
+async function saveCartToFirestore(uid, items) {
+  if (!uid) return;
+  try {
+    let cartRef = doc(db, 'carts', uid);
+    await setDoc(cartRef, {
+      items: items,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+  } catch (error) {
+    console.error("Failed to save cart to Firestore:", error.code, error.message);
+  }
+}
+
+function syncLocalCache() {
+  localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
+  localStorage.setItem('cart', JSON.stringify(cartItems));
 }
 
 function renderCart() {
@@ -111,24 +168,63 @@ function renderCart() {
   if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
 }
 
-window.changeItemQty = function(index, change) {
+window.changeItemQty = async function(index, change) {
+  if (!cartItems[index]) return;
   cartItems[index].quantity = (Number(cartItems[index].quantity) || 1) + change;
+
   if (cartItems[index].quantity <= 0) {
     cartItems.splice(index, 1);
   }
-  saveAndRender();
+
+  await saveAndRender();
 };
 
-window.removeCartItem = function(index) {
+window.removeCartItem = async function(index) {
   cartItems.splice(index, 1);
-  saveAndRender();
+  await saveAndRender();
 };
 
-function saveAndRender() {
-  localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
-  localStorage.setItem('cart', JSON.stringify(cartItems));
+async function saveAndRender() {
+  syncLocalCache();
   renderCart();
   updateCartBadge();
+
+  if (currentUser) {
+    await saveCartToFirestore(currentUser.uid, cartItems);
+  }
+}
+
+async function handleCheckout() {
+  if (cartItems.length === 0) return;
+
+  let subtotal = cartItems.reduce((sum, item) => {
+    return sum + (Number(item.price) || 0) * (Number(item.quantity) || 1);
+  }, 0);
+
+  let totalQuantity = cartItems.reduce((sum, item) => {
+    return sum + (Number(item.quantity) || 1);
+  }, 0);
+
+  try {
+    if (currentUser) {
+      let ordersRef = collection(db, 'users', currentUser.uid, 'orders');
+      await addDoc(ordersRef, {
+        items: cartItems,
+        subtotal: subtotal,
+        totalQuantity: totalQuantity,
+        status: 'Completed',
+        createdAt: serverTimestamp()
+      });
+    }
+
+    cartItems = [];
+    await saveAndRender();
+    alert('Order placed successfully!');
+    window.location.href = 'Website.html';
+  } catch (error) {
+    console.error("Checkout failed:", error.code, error.message);
+    alert("Could not complete checkout: " + error.message);
+  }
 }
 
 function updateCartBadge() {
@@ -138,6 +234,7 @@ function updateCartBadge() {
     badge.textContent = totalQty;
   }
 }
+
 function watchNavbarChanges() {
   let authContainer = document.getElementById('nav-auth-container');
   let badge = document.getElementById('cart-count');
