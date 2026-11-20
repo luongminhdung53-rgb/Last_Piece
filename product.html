@@ -6,28 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guitarent - Product Details</title>
   <link rel="stylesheet" href="./css/product.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
   <header>
     <nav class="navbar" id="top_header">
-      <a href="index.html" class="logo">
+      <a href="Website.html" class="logo">
         <p class="guitarent">Guitarent</p>
       </a>
       <ul class="nav-links">
-        <li><a href="index.html#Gibson">Gibson</a></li>
-        <li><a href="index.html#Fender">Fender</a></li>
-        <li><a href="index.html#Epiphone">Epiphone</a></li>
-        <li><a href="index.html#Kramer">Kramer</a></li>
-        <li><a href="index.html#PRS">PRS Guitars</a></li>
+        <li><a href="Website.html#Gibson">Gibson</a></li>
+        <li><a href="Website.html#Fender">Fender</a></li>
+        <li><a href="Website.html#Epiphone">Epiphone</a></li>
+        <li><a href="Website.html#Kramer">Kramer</a></li>
+        <li><a href="Website.html#PRS">PRS Guitars</a></li>
       </ul>
-
       <div class="nav-actions">
-        <a href="weather.html" class="weather">☁</a>
-        <a href="cart.html" class="cart-btn"> Cart (<span id="cart-count">0</span>)</a>
+        <a href="cart.html" class="cart-btn">Cart (<span id="cart-count">0</span>)</a>
         <div id="nav-auth-container">
           <a href="Sign_in.html" id="button">Sign In</a>
         </div>
@@ -36,95 +31,45 @@
   </header>
 
   <main class="product-container">
-    <div class="category-path">
-      <span>Home</span> <span>></span>
-      <span id="product-brand-path">Brand</span> <span>></span>
-      <span id="product-title-path">Guitar</span>
+    <a href="Website.html" class="back-link">← Back to Catalog</a>
+
+    <div id="product-loading" class="specs-box product-loading">
+      <h3>Loading guitar details...</h3>
     </div>
 
-    <div class="product-wrapper">
-      <div class="product-image-section">
-        <img id="product-img" src="" alt="Product Image"
-          onerror="this.onerror=null; console.error('Image failed to load:', this.src);">
+    <div id="product-detail-view" class="product-wrapper is-hidden">
+      <div class="product-image-box">
+        <img id="product-img" src="" alt="Guitar Image" class="product-detail-img">
       </div>
 
-      <div class="product-info-section">
-        <span class="brand-badge" id="product-brand">Brand</span>
-        <h1 id="product-title">Guitar Model</h1>
-        <div class="price-tag" id="product-price">$0</div>
+      <div class="product-info-col">
+        <span id="product-brand" class="brand-badge">Brand</span>
+        <h1 id="product-name" class="product-title">Guitar Name</h1>
+        <p id="product-price" class="price-tag">$0</p>
 
-        <p class="description" id="product-description">Loading description...</p>
+        <div class="specs-box product-desc-box">
+          <h3 class="specs-heading">Description & Specs</h3>
+          <p id="product-desc" class="specs-text">Loading description...</p>
+        </div>
 
-        <div class="purchase-controls">
+        <div class="product-actions-row">
           <div class="quantity-selector">
-            <button id="qty-minus">-</button>
-            <input type="number" id="qty-input" value="1" min="1" max="10">
-            <button id="qty-plus">+</button>
+            <button type="button" id="qty-minus">-</button>
+            <input type="number" id="qty-input" value="1" min="1" readonly>
+            <button type="button" id="qty-plus">+</button>
           </div>
-          <button class="add-to-cart-btn" id="add-to-cart-btn">
-            <i class="fa-solid fa-cart-shopping"></i> Add to cart
+
+          <button type="button" id="add-to-cart-btn" class="add-to-cart-btn">
+            Add to Cart
           </button>
         </div>
 
-        <div class="specs-box">
-          <h3>Specifications</h3>
-          <ul>
-            <li><strong>Body Type:</strong> <span id="spec-body">Semi-Hollow</span></li>
-            <li><strong>Neck Material:</strong> <span id="spec-neck">Mahogany</span></li>
-            <li><strong>In Stock:</strong> Ready to Ship</li>
-            <li><strong>Warranty:</strong> 2-Year Manufacturer Warranty</li>
-          </ul>
-        </div>
+        <p id="cart-feedback" class="cart-feedback"></p>
       </div>
     </div>
-
-    <!-- Product Comment Section -->
-    <section class="comments-section">
-      <h2>Player Reviews & Comments</h2>
-      <form id="comment-form" class="comment-form">
-        <textarea id="comment-input" rows="3" placeholder="Write your review or question about this guitar..." required maxlength="500"></textarea>
-        <button type="submit" class="add-to-cart-btn" style="padding: 12px 24px; max-width: 220px;">
-          Post Comment
-        </button>
-      </form>
-      <div id="comments-list" class="comments-list"></div>
-    </section>
   </main>
 
-  <footer>
-    <div class="footer-container">
-      <div>
-        <h4>Company</h4>
-        <a href="index.html#hero"><p>About</p></a>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <p>Email: Guitarent@gmail.com</p>
-      </div>
-    </div>
-  </footer>
-
   <script type="module" src="./js/product.js"></script>
-
-  <div id="chat-widget-container" class="chat-widget-container hidden">
-    <div class="chat-header">
-      <div class="chat-title">
-        <i class="fa-solid fa-robot"></i> Guitarent AI
-      </div>
-      <button id="close-chat-btn" class="close-chat-btn">×</button>
-    </div>
-    <iframe
-      src="https://www.chatbase.co/chatbot-iframe/eiq7oUjAeq1k1q9JCFwty"
-      width="100%"
-      height="100%"
-      frameborder="0"
-      allow="microphone"
-    ></iframe>
-  </div>
-
-  <button id="open-chat-btn" class="chat-toggle-btn" title="Chat with Gui">
-    <i class="fa-solid fa-comment-dots"></i>
-  </button>
 </body>
 
 </html>

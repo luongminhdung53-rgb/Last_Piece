@@ -1,93 +1,241 @@
-import { requireAuth } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Protect page: user must be logged in
-requireAuth();
+let currentUser = null;
+let currentProduct = null;
+let cartItems = [];
+let selectedQty = 1;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Load guitar data from localStorage
-  const guitarDataStr = localStorage.getItem('selectedProduct');
-  
-  if (!guitarDataStr) {
-    alert("No guitar selected. Returning to store.");
-    window.location.href = 'index.html';
+  loadCartFromLocalCache();
+  setupQuantityControls();
+
+  let addBtn = document.getElementById('add-to-cart-btn');
+  if (addBtn) {
+    addBtn.addEventListener('click', handleAddToCart);
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user || null;
+    updateNavbarUser(currentUser);
+
+    if (currentUser) {
+      await loadCartFromFirestore(currentUser.uid);
+    }
+    updateCartBadge();
+  });
+
+  loadProductFromFirestore();
+});
+
+function updateNavbarUser(user) {
+  let authContainer = document.getElementById('nav-auth-container');
+  if (!authContainer) return;
+
+  if (!user) {
+    authContainer.innerHTML = `<a href="Sign_in.html" id="button">Sign In</a>`;
     return;
   }
 
-  const guitar = JSON.parse(guitarDataStr);
+  let displayName = user.displayName
+    ? user.displayName.split(' ')[0]
+    : user.email.split('@')[0];
 
-  // Populate UI elements
-  document.getElementById('product-title').textContent = guitar.name;
-  document.getElementById('product-title-path').textContent = guitar.name;
-  document.getElementById('product-brand').textContent = guitar.brand;
-  document.getElementById('product-brand-path').textContent = guitar.brand;
-  document.getElementById('product-price').textContent = `$${Number(guitar.price).toLocaleString()}`;
-  document.getElementById('product-description').textContent = guitar.description || "No description available.";
-  
-  const imgEl = document.getElementById('product-img');
-  if (imgEl && guitar.image) {
-    imgEl.src = guitar.image;
-    imgEl.alt = guitar.name;
-  }
+  authContainer.innerHTML = `
+    <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
+      ${displayName}
+    </a>
+  `;
+}
 
-  // Quantity Controls
-  const qtyInput = document.getElementById('qty-input');
-  const qtyMinus = document.getElementById('qty-minus');
-  const qtyPlus = document.getElementById('qty-plus');
+function normalizeCartItems(items) {
+  if (!Array.isArray(items)) return [];
+  return items.map((item) => ({
+    ...item,
+    price: Number(item.price) || 0,
+    quantity: Number(item.quantity) || 1
+  }));
+}
 
-  if (qtyMinus && qtyInput) {
-    qtyMinus.addEventListener('click', () => {
-      let val = parseInt(qtyInput.value) || 1;
-      if (val > 1) qtyInput.value = val - 1;
-    });
-  }
+function loadCartFromLocalCache() {
+  let savedCart = JSON.parse(localStorage.getItem('guitarentCart'))
+    || JSON.parse(localStorage.getItem('cart'))
+    || [];
+  cartItems = normalizeCartItems(savedCart);
+  updateCartBadge();
+}
 
-  if (qtyPlus && qtyInput) {
-    qtyPlus.addEventListener('click', () => {
-      let val = parseInt(qtyInput.value) || 1;
-      if (val < 10) qtyInput.value = val + 1;
-    });
-  }
+async function loadCartFromFirestore(uid) {
+  try {
+    let cartRef = doc(db, 'carts', uid);
+    let cartSnap = await getDoc(cartRef);
 
-  // Add to Cart Logic (localStorage)
-  const addToCartBtn = document.getElementById('add-to-cart-btn');
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', () => {
-      const quantity = parseInt(qtyInput ? qtyInput.value : 1) || 1;
-      let cart = JSON.parse(localStorage.getItem('guitarentCart')) || [];
-
-      const existingIndex = cart.findIndex(item => item.id === guitar.id);
-      if (existingIndex > -1) {
-        cart[existingIndex].quantity += quantity;
-      } else {
-        cart.push({
-          id: guitar.id,
-          name: guitar.name,
-          price: Number(guitar.price),
-          brand: guitar.brand,
-          img: guitar.image,
-          quantity: quantity
-        });
-      }
-
-      localStorage.setItem('guitarentCart', JSON.stringify(cart));
+    if (cartSnap.exists()) {
+      let data = cartSnap.data();
+      cartItems = normalizeCartItems(data.items);
+      syncLocalCache();
       updateCartBadge();
-
-      // Visual feedback
-      const originalHTML = addToCartBtn.innerHTML;
-      addToCartBtn.textContent = "Added to Cart!";
-      addToCartBtn.style.backgroundColor = "#4CAF50";
-
-      setTimeout(() => {
-        addToCartBtn.innerHTML = originalHTML;
-        addToCartBtn.style.backgroundColor = "";
-      }, 1500);
-    });
+    }
+  } catch (error) {
+    console.error("Failed to load user cart:", error.code, error.message);
   }
-});
+}
+
+async function saveCartToFirestore(uid, items) {
+  if (!uid) return;
+  try {
+    let cartRef = doc(db, 'carts', uid);
+    await setDoc(cartRef, {
+      items: items,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+  } catch (error) {
+    console.error("Failed to save cart to Firestore:", error.code, error.message);
+  }
+}
+
+function syncLocalCache() {
+  localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
+  localStorage.setItem('cart', JSON.stringify(cartItems));
+}
 
 function updateCartBadge() {
-  const cart = JSON.parse(localStorage.getItem('guitarentCart')) || [];
-  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const badge = document.getElementById('cart-count');
-  if (badge) badge.textContent = totalQty;
+  let totalQty = cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+  let badge = document.getElementById('cart-count');
+  if (badge) {
+    badge.textContent = totalQty;
+  }
+}
+
+async function loadProductFromFirestore() {
+  let params = new URLSearchParams(window.location.search);
+  let productId = params.get('id');
+  let brandParam = params.get('brand');
+
+  let loadingBox = document.getElementById('product-loading');
+  let detailView = document.getElementById('product-detail-view');
+
+  if (!productId) {
+    if (loadingBox) loadingBox.innerHTML = "<h3>Missing guitar ID in URL.</h3>";
+    return;
+  }
+
+  let brandsToCheck = brandParam
+    ? [brandParam]
+    : ['Gibson', 'Fender', 'Epiphone', 'Kramer', 'PRS'];
+
+  try {
+    for (let brandName of brandsToCheck) {
+      let guitarRef = doc(db, brandName, productId);
+      let guitarSnap = await getDoc(guitarRef);
+
+      if (guitarSnap.exists()) {
+        let data = guitarSnap.data();
+        currentProduct = {
+          id: guitarSnap.id,
+          brand: brandName,
+          name: data.name || "Unnamed Guitar",
+          price: Number(data.price) || 0,
+          img: data.url || data.image || "",
+          description: data.desc || data.description || "No description available."
+        };
+        break;
+      }
+    }
+
+    if (!currentProduct) {
+      if (loadingBox) loadingBox.innerHTML = "<h3>Guitar not found in catalog.</h3>";
+      return;
+    }
+
+    renderProductDetails(currentProduct);
+    if (loadingBox) loadingBox.style.display = 'none';
+    if (detailView) detailView.style.display = 'grid';
+  } catch (error) {
+    console.error("Failed to load guitar:", error.code, error.message);
+    if (loadingBox) loadingBox.innerHTML = `<h3>Error loading guitar: ${error.message}</h3>`;
+  }
+}
+
+function renderProductDetails(guitar) {
+  document.title = `${guitar.name} - Guitarent`;
+
+  let brandEl = document.getElementById('product-brand');
+  let nameEl = document.getElementById('product-name');
+  let priceEl = document.getElementById('product-price');
+  let descEl = document.getElementById('product-desc');
+  let imgEl = document.getElementById('product-img');
+
+  if (brandEl) brandEl.textContent = guitar.brand;
+  if (nameEl) nameEl.textContent = guitar.name;
+  if (priceEl) priceEl.textContent = `$${guitar.price.toLocaleString()}`;
+  if (descEl) descEl.textContent = guitar.description;
+  if (imgEl) {
+    imgEl.src = guitar.img;
+    imgEl.alt = guitar.name;
+  }
+}
+
+function setupQuantityControls() {
+  let minusBtn = document.getElementById('qty-minus');
+  let plusBtn = document.getElementById('qty-plus');
+  let qtyInput = document.getElementById('qty-input');
+
+  if (minusBtn) {
+    minusBtn.addEventListener('click', () => {
+      if (selectedQty > 1) {
+        selectedQty -= 1;
+        if (qtyInput) qtyInput.value = selectedQty;
+      }
+    });
+  }
+
+  if (plusBtn) {
+    plusBtn.addEventListener('click', () => {
+      selectedQty += 1;
+      if (qtyInput) qtyInput.value = selectedQty;
+    });
+  }
+}
+
+async function handleAddToCart() {
+  if (!currentProduct) return;
+
+  if (!currentUser) {
+    alert("Please sign in first to save items to your cart.");
+    window.location.href = 'Sign_in.html';
+    return;
+  }
+
+  let existingIndex = cartItems.findIndex(
+    (item) => item.id === currentProduct.id && item.brand === currentProduct.brand
+  );
+
+  if (existingIndex !== -1) {
+    cartItems[existingIndex].quantity = (Number(cartItems[existingIndex].quantity) || 1) + selectedQty;
+  } else {
+    cartItems.push({
+      id: currentProduct.id,
+      brand: currentProduct.brand,
+      name: currentProduct.name,
+      price: currentProduct.price,
+      img: currentProduct.img,
+      quantity: selectedQty
+    });
+  }
+
+  syncLocalCache();
+  updateCartBadge();
+  await saveCartToFirestore(currentUser.uid, cartItems);
+
+  let feedbackEl = document.getElementById('cart-feedback');
+  if (feedbackEl) {
+    feedbackEl.textContent = `Added ${selectedQty} × ${currentProduct.name} to your cart!`;
+  }
 }
