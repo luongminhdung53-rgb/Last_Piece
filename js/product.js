@@ -11,6 +11,7 @@ let currentUser = null;
 let currentProduct = null;
 let cartItems = [];
 let selectedQty = 1;
+let feedbackTimer = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   loadCartFromLocalCache();
@@ -27,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentUser) {
       await loadCartFromFirestore(currentUser.uid);
+    } else {
+      loadCartFromLocalCache();
     }
     updateCartBadge();
   });
@@ -45,7 +48,7 @@ function updateNavbarUser(user) {
 
   let displayName = user.displayName
     ? user.displayName.split(' ')[0]
-    : user.email.split('@')[0];
+    : (user.email ? user.email.split('@')[0] : 'Account');
 
   authContainer.innerHTML = `
     <a href="profile.html" id="button" style="background-color: #d4a853; color: #3b240b;">
@@ -69,6 +72,11 @@ function loadCartFromLocalCache() {
     || [];
   cartItems = normalizeCartItems(savedCart);
   updateCartBadge();
+}
+
+function syncLocalCache() {
+  localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
+  localStorage.setItem('cart', JSON.stringify(cartItems));
 }
 
 async function loadCartFromFirestore(uid) {
@@ -98,11 +106,6 @@ async function saveCartToFirestore(uid, items) {
   } catch (error) {
     console.error("Failed to save cart to Firestore:", error.code, error.message);
   }
-}
-
-function syncLocalCache() {
-  localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
-  localStorage.setItem('cart', JSON.stringify(cartItems));
 }
 
 function updateCartBadge() {
@@ -139,10 +142,10 @@ async function loadProductFromFirestore() {
         let data = guitarSnap.data();
         currentProduct = {
           id: guitarSnap.id,
-          brand: brandName,
+          brand: data.brand || brandName,
           name: data.name || "Unnamed Guitar",
           price: Number(data.price) || 0,
-          img: data.url || data.image || "",
+          img: data.url || data.image || data.img || "",
           description: data.desc || data.description || "No description available."
         };
         break;
@@ -155,14 +158,14 @@ async function loadProductFromFirestore() {
     }
 
     renderProductDetails(currentProduct);
+
     if (loadingBox) loadingBox.classList.add('is-hidden');
-    if (detailView) {
-      detailView.style.display = '';
-      detailView.classList.remove('is-hidden');
-    }
+    if (detailView) detailView.classList.remove('is-hidden');
   } catch (error) {
     console.error("Failed to load guitar:", error.code, error.message);
-    if (loadingBox) loadingBox.innerHTML = `<h3>Error loading guitar: ${error.message}</h3>`;
+    if (loadingBox) {
+      loadingBox.innerHTML = `<h3>Error loading guitar: ${error.message}</h3>`;
+    }
   }
 }
 
@@ -177,7 +180,7 @@ function renderProductDetails(guitar) {
 
   if (brandEl) brandEl.textContent = guitar.brand;
   if (nameEl) nameEl.textContent = guitar.name;
-  if (priceEl) priceEl.textContent = `$${guitar.price.toLocaleString()}`;
+  if (priceEl) priceEl.textContent = `$${Number(guitar.price).toLocaleString()}`;
   if (descEl) descEl.textContent = guitar.description;
   if (imgEl) {
     imgEl.src = guitar.img;
@@ -210,12 +213,6 @@ function setupQuantityControls() {
 async function handleAddToCart() {
   if (!currentProduct) return;
 
-  if (!currentUser) {
-    alert("Please sign in first to save items to your cart.");
-    window.location.href = 'Sign_in.html';
-    return;
-  }
-
   let existingIndex = cartItems.findIndex(
     (item) => item.id === currentProduct.id && item.brand === currentProduct.brand
   );
@@ -227,7 +224,7 @@ async function handleAddToCart() {
       id: currentProduct.id,
       brand: currentProduct.brand,
       name: currentProduct.name,
-      price: currentProduct.price,
+      price: Number(currentProduct.price) || 0,
       img: currentProduct.img,
       quantity: selectedQty
     });
@@ -235,39 +232,10 @@ async function handleAddToCart() {
 
   syncLocalCache();
   updateCartBadge();
-  await saveCartToFirestore(currentUser.uid, cartItems);
 
-let feedbackTimer = null;
-
-async function handleAddToCart() {
-  if (!currentProduct) return;
-
-  if (!currentUser) {
-    alert("Please sign in first to save items to your cart.");
-    window.location.href = 'Sign_in.html';
-    return;
+  if (currentUser) {
+    await saveCartToFirestore(currentUser.uid, cartItems);
   }
-
-  let existingIndex = cartItems.findIndex(
-    (item) => item.id === currentProduct.id && item.brand === currentProduct.brand
-  );
-
-  if (existingIndex !== -1) {
-    cartItems[existingIndex].quantity = (Number(cartItems[existingIndex].quantity) || 1) + selectedQty;
-  } else {
-    cartItems.push({
-      id: currentProduct.id,
-      brand: currentProduct.brand,
-      name: currentProduct.name,
-      price: currentProduct.price,
-      img: currentProduct.img,
-      quantity: selectedQty
-    });
-  }
-
-  syncLocalCache();
-  updateCartBadge();
-  await saveCartToFirestore(currentUser.uid, cartItems);
 
   let addBtn = document.getElementById('add-to-cart-btn');
   let feedbackEl = document.getElementById('cart-feedback');
@@ -295,5 +263,4 @@ async function handleAddToCart() {
       feedbackEl.textContent = '';
     }
   }, 2000);
-}
 }
