@@ -220,20 +220,6 @@ body {
   background-color: #5c3a16;
 }
 
-/* Lit up green when clicked */
-.add-to-cart-btn.added {
-  background-color: #2e7d32;
-  color: #ffffff;
-}
-
-/* Green confirmation text */
-.cart-feedback {
-  margin-top: 12px;
-  color: #1b5e20;
-  font-weight: bold;
-  font-size: 0.98rem;
-}
-
 @media (max-width: 768px) {
   .product-wrapper {
     grid-template-columns: 1fr;

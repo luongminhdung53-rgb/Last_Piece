@@ -237,8 +237,63 @@ async function handleAddToCart() {
   updateCartBadge();
   await saveCartToFirestore(currentUser.uid, cartItems);
 
-  let feedbackEl = document.getElementById('cart-feedback');
-  if (feedbackEl) {
-    feedbackEl.textContent = `Added ${selectedQty} × ${currentProduct.name} to your cart!`;
+let feedbackTimer = null;
+
+async function handleAddToCart() {
+  if (!currentProduct) return;
+
+  if (!currentUser) {
+    alert("Please sign in first to save items to your cart.");
+    window.location.href = 'Sign_in.html';
+    return;
   }
+
+  let existingIndex = cartItems.findIndex(
+    (item) => item.id === currentProduct.id && item.brand === currentProduct.brand
+  );
+
+  if (existingIndex !== -1) {
+    cartItems[existingIndex].quantity = (Number(cartItems[existingIndex].quantity) || 1) + selectedQty;
+  } else {
+    cartItems.push({
+      id: currentProduct.id,
+      brand: currentProduct.brand,
+      name: currentProduct.name,
+      price: currentProduct.price,
+      img: currentProduct.img,
+      quantity: selectedQty
+    });
+  }
+
+  syncLocalCache();
+  updateCartBadge();
+  await saveCartToFirestore(currentUser.uid, cartItems);
+
+  let addBtn = document.getElementById('add-to-cart-btn');
+  let feedbackEl = document.getElementById('cart-feedback');
+
+  if (addBtn) {
+    addBtn.style.backgroundColor = '#2e7d32';
+    addBtn.style.color = '#ffffff';
+  }
+
+  if (feedbackEl) {
+    feedbackEl.style.color = '#1b5e20';
+    feedbackEl.textContent = 'The product has been added to cart!';
+  }
+
+  if (feedbackTimer) {
+    clearTimeout(feedbackTimer);
+  }
+
+  feedbackTimer = setTimeout(() => {
+    if (addBtn) {
+      addBtn.style.backgroundColor = '';
+      addBtn.style.color = '';
+    }
+    if (feedbackEl) {
+      feedbackEl.textContent = '';
+    }
+  }, 2000);
+}
 }
