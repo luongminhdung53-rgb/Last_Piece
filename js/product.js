@@ -155,8 +155,11 @@ async function loadProductFromFirestore() {
     }
 
     renderProductDetails(currentProduct);
-    if (loadingBox) loadingBox.style.display = 'none';
-    if (detailView) detailView.style.display = 'grid';
+    if (loadingBox) loadingBox.classList.add('is-hidden');
+    if (detailView) {
+      detailView.style.display = '';
+      detailView.classList.remove('is-hidden');
+    }
   } catch (error) {
     console.error("Failed to load guitar:", error.code, error.message);
     if (loadingBox) loadingBox.innerHTML = `<h3>Error loading guitar: ${error.message}</h3>`;

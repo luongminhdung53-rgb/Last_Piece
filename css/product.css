@@ -1,13 +1,13 @@
 /* Product detail layout & helpers */
-.is-hidden {
-  display: none;
-}
-
 .product-wrapper {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 30px;
   align-items: start;
+}
+
+.product-info-col {
+  min-width: 0;
 }
 
 .back-link {
@@ -68,6 +68,11 @@
   flex-wrap: wrap;
 }
 
+.add-to-cart-btn {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 .cart-feedback {
   margin-top: 12px;
   color: #d4a853;
@@ -78,4 +83,9 @@
   .product-wrapper {
     grid-template-columns: 1fr;
   }
+}
+
+/* Kept at the bottom so it reliably hides elements regardless of display type */
+.is-hidden {
+  display: none !important;
 }

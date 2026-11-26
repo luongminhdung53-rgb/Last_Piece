@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guitarent - Product Details</title>
+  <!-- If your site has a shared theme stylesheet (like ./css/style.css), keep it above product.css -->
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/product.css">
 </head>
 
@@ -31,36 +33,38 @@
   </header>
 
   <main class="product-container">
-    <div id="product-loading" class="specs-box">
+    <div id="product-loading" class="specs-box product-loading">
       <h3>Loading guitar details...</h3>
     </div>
 
     <div id="product-detail-view" class="product-wrapper is-hidden">
-      <div>
-        <img id="product-img" src="" alt="Guitar Image">
+      <div class="product-image-box">
+        <img id="product-img" src="" alt="Guitar Image" class="product-detail-img">
       </div>
 
-      <div>
+      <div class="product-info-col">
         <span id="product-brand" class="brand-badge">Brand</span>
-        <h1 id="product-name">Guitar Name</h1>
+        <h1 id="product-name" class="product-title">Guitar Name</h1>
         <p id="product-price" class="price-tag">$0</p>
 
-        <div class="specs-box">
-          <h3>Description & Specs</h3>
-          <p id="product-desc">Loading description...</p>
+        <div class="specs-box product-desc-box">
+          <h3 class="specs-heading">Description & Specs</h3>
+          <p id="product-desc" class="specs-text">Loading description...</p>
         </div>
 
-        <div class="quantity-selector">
-          <button type="button" id="qty-minus">-</button>
-          <input type="number" id="qty-input" value="1" min="1" readonly>
-          <button type="button" id="qty-plus">+</button>
+        <div class="product-actions-row">
+          <div class="quantity-selector">
+            <button type="button" id="qty-minus">-</button>
+            <input type="number" id="qty-input" value="1" min="1" readonly>
+            <button type="button" id="qty-plus">+</button>
+          </div>
+
+          <button type="button" id="add-to-cart-btn" class="add-to-cart-btn">
+            Add to Cart
+          </button>
         </div>
 
-        <button type="button" id="add-to-cart-btn" class="add-to-cart-btn">
-          Add to Cart
-        </button>
-
-        <p id="cart-feedback"></p>
+        <p id="cart-feedback" class="cart-feedback"></p>
       </div>
     </div>
   </main>
