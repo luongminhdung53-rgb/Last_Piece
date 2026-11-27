@@ -297,6 +297,7 @@ async function handleAddToCart() {
     if (addBtn) {
       addBtn.style.backgroundColor = '';
       addBtn.style.color = '';
+      addBtn.textContent ='Add to Cart';
     }
     if (feedbackEl) {
       feedbackEl.textContent = '';
