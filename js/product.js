@@ -243,6 +243,7 @@ async function handleAddToCart() {
   if (addBtn) {
     addBtn.style.backgroundColor = '#2e7d32';
     addBtn.style.color = '#ffffff';
+    addBtn.textContent ='Added!';
   }
 
   if (feedbackEl) {
