@@ -1,12 +1,20 @@
+// Import Firebase Auth instance and Firestore database instance from your config file
 import { auth, db } from './firebase-config.js';
+// Import Firebase Auth listener to detect when a user is signed in
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// Import Firestore functions:
+// - collection & getDocs: read multiple documents inside a collection (e.g., all guitars in "Gibson")
+// - doc & getDoc: read one specific document by path (e.g., "carts/{userId}")
 import { collection, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Arrays holding guitars fetched from each brand collection in Firestore
 let gibsonGuitars = [];
 let fenderGuitars = [];
 let epiphoneGuitars = [];
 let kramerGuitars = [];
 let prsGuitars = [];
+
+// Array holding the current user's cart items ({ id, brand, name, price, img, quantity })
 let cartItems = [];
 
 function detectBrand(guitarName, docId) {
@@ -19,6 +27,7 @@ function detectBrand(guitarName, docId) {
   return 'Other';
 }
 
+// Combines all 5 brand arrays into one flat list (used for New Arrivals & Best Sellers)
 function getAllGuitars() {
   return [
     ...gibsonGuitars,
@@ -29,6 +38,7 @@ function getAllGuitars() {
   ];
 }
 
+// Makes sure price and quantity are always numbers (prevents string bugs like "1" + 1 = "11")
 function normalizeCartItems(items) {
   if (!Array.isArray(items)) return [];
   return items.map((item) => ({
@@ -38,67 +48,76 @@ function normalizeCartItems(items) {
   }));
 }
 
+// Saves a local backup of the cart in browser localStorage so other pages/loads can read it quickly
 function syncLocalCartCache(items) {
   localStorage.setItem('guitarentCart', JSON.stringify(items));
   localStorage.setItem('cart', JSON.stringify(items));
 }
 
 // ============================================================================
-// [DISPLAY ON WEBSITE] Puts the cart item count out into the #cart-count badge
+// [PUTS DATA OUT TO WEBSITE] Updates the Cart (X) badge in the navbar
 // ============================================================================
 function updateCartBadge(items = cartItems) {
+  // Sum up `quantity` across all cart items (defaults each item to 1 if missing)
   let totalQty = items.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+  // Find <span id="cart-count">0</span> inside index.html
   let badge = document.getElementById('cart-count');
+  // Put the calculated number into the DOM text so the user sees it
   if (badge) {
     badge.textContent = totalQty;
-    console.log("[DISPLAY ON WEBSITE] Updated #cart-count badge to:", totalQty);
   }
 }
 
+// Reads any cached cart from localStorage immediately on page load before Firestore responds
 function loadCartFromLocalCache() {
   let savedCart = JSON.parse(localStorage.getItem('guitarentCart'))
     || JSON.parse(localStorage.getItem('cart'))
     || [];
   cartItems = normalizeCartItems(savedCart);
+  // Show cached count right away
   updateCartBadge(cartItems);
 }
 
 // ============================================================================
-// [GET DATA FROM FIRESTORE] Fetches the user's cart doc from carts/{uid}
+// [GETS DATA FROM FIRESTORE] Reads the signed-in user's cart from "carts/{uid}"
 // ============================================================================
 async function loadCartFromFirestore(uid) {
   if (!uid) return;
   try {
-    console.log("[GET DATA FROM FIRESTORE] Fetching cart for user:", uid);
+    // Point to document "carts/<user.uid>" in Firestore
     let cartRef = doc(db, 'carts', uid);
+    // Fetch the document snapshot from Firestore
     let cartSnap = await getDoc(cartRef);
 
+    // If the user has a cart document in Firestore, extract its `items` array
     if (cartSnap.exists()) {
       let data = cartSnap.data();
       cartItems = normalizeCartItems(data.items);
+      // Keep localStorage in sync with Firestore's latest cart
       syncLocalCartCache(cartItems);
-      console.log("[GET DATA FROM FIRESTORE] Loaded cart items:", cartItems);
-    } else {
-      console.log("[GET DATA FROM FIRESTORE] No cart document found for user:", uid);
     }
+    // [PUTS DATA OUT TO WEBSITE] Refresh #cart-count with Firestore's cart total
     updateCartBadge(cartItems);
   } catch (error) {
     console.error("Failed to load user cart:", error.code, error.message);
   }
 }
 
+// Runs once the HTML document is parsed
 document.addEventListener('DOMContentLoaded', () => {
   loadCartFromLocalCache();
   setupSearch();
   setupChatWidget();
 
+  // Waits for Firebase Auth to confirm who is logged in (auth takes a moment on page load)
   onAuthStateChanged(auth, async (user) => {
+    // Redirect to login page if nobody is signed in
     if (!user) {
       window.location.href = 'Sign_in.html';
       return;
     }
 
-    // [DISPLAY ON WEBSITE] Puts the signed-in user's name/link into the navbar
+    // [PUTS DATA OUT TO WEBSITE] Replaces "Sign In" button with user's name linking to profile.html
     let authContainer = document.getElementById('nav-auth-container');
     if (authContainer) {
       let displayName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
@@ -109,22 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
+    // Load this user's cart and guitar catalog from Firestore
     await loadCartFromFirestore(user.uid);
     await loadCatalogFromFirestore();
   });
 });
 
 // ============================================================================
-// [GET DATA FROM FIRESTORE] Fetches guitars from each brand collection
+// [GETS DATA FROM FIRESTORE] Reads all guitars from each brand collection
 // ============================================================================
 async function loadCatalogFromFirestore() {
   try {
+    // Reset arrays before filling them with fresh Firestore data
     gibsonGuitars = [];
     fenderGuitars = [];
     epiphoneGuitars = [];
     kramerGuitars = [];
     prsGuitars = [];
 
+    // Maps each Firestore collection name to its matching local array
     let brandSources = [
       { name: 'Gibson', targetArray: gibsonGuitars },
       { name: 'Fender', targetArray: fenderGuitars },
@@ -135,11 +157,12 @@ async function loadCatalogFromFirestore() {
 
     let totalDocs = 0;
 
+    // Loop through each brand collection and fetch all documents inside it
     for (let source of brandSources) {
-      console.log("[GET DATA FROM FIRESTORE] Reading collection:", source.name);
       let querySnapshot = await getDocs(collection(db, source.name));
       totalDocs += querySnapshot.size;
 
+      // Convert each Firestore document into a clean guitar object for the UI
       querySnapshot.docs.forEach((docSnap) => {
         let data = docSnap.data();
         let guitarObj = {
@@ -157,14 +180,14 @@ async function loadCatalogFromFirestore() {
       });
     }
 
-    console.log("[GET DATA FROM FIRESTORE] Total documents fetched:", totalDocs);
+    console.log("Firestore returned total documents count:", totalDocs);
 
     if (totalDocs === 0) {
       console.warn("No documents found across brand collections.");
       return;
     }
 
-    // [DISPLAY ON WEBSITE] Renders the fetched guitars into the page sections
+    // [PUTS DATA OUT TO WEBSITE] Draw guitar cards onto the page once data is loaded
     renderAllBrands();
     renderFeaturedSections();
   } catch (error) {
@@ -174,17 +197,21 @@ async function loadCatalogFromFirestore() {
 }
 
 // ============================================================================
-// [DISPLAY ON WEBSITE] Builds and injects guitar cards into a brand section
+// [PUTS DATA OUT TO WEBSITE] Creates DOM cards for one brand and inserts them
 // ============================================================================
 function renderBrandSection(brandName, guitarArray) {
+  // Locate the <section id="Gibson"> (etc.) in index.html
   let section = document.getElementById(brandName);
   if (!section) return;
 
+  // Locate <div class="product-grid"> inside that brand section
   let grid = section.querySelector('.product-grid');
   if (!grid) return;
 
+  // Clear old cards before rendering
   grid.innerHTML = '';
 
+  // Hide empty brand sections so the page doesn't show blank headers
   if (guitarArray.length === 0) {
     section.style.display = 'none';
     return;
@@ -192,9 +219,11 @@ function renderBrandSection(brandName, guitarArray) {
 
   section.style.display = 'block';
 
+  // Build a card element for each guitar and append it to .product-grid
   guitarArray.forEach((guitar) => {
     let card = document.createElement('div');
     card.className = 'product-card';
+    // Clicking a card saves the selected guitar and navigates to product.html
     card.addEventListener('click', () => selectProduct(guitar));
 
     let img = document.createElement('img');
@@ -213,13 +242,9 @@ function renderBrandSection(brandName, guitarArray) {
     card.appendChild(price);
     grid.appendChild(card);
   });
-
-  console.log(`[DISPLAY ON WEBSITE] Rendered ${guitarArray.length} cards for ${brandName}`);
 }
 
-// ============================================================================
-// [DISPLAY ON WEBSITE] Triggers rendering across all five brand sections
-// ============================================================================
+// [PUTS DATA OUT TO WEBSITE] Renders all 5 brand sections on the main page
 function renderAllBrands() {
   renderBrandSection('Gibson', gibsonGuitars);
   renderBrandSection('Fender', fenderGuitars);
@@ -229,11 +254,12 @@ function renderAllBrands() {
 }
 
 // ============================================================================
-// [DISPLAY ON WEBSITE] Renders New Arrivals and Best Sellers onto the page
+// [PUTS DATA OUT TO WEBSITE] Renders New Arrivals & Best Sellers grids
 // ============================================================================
 function renderFeaturedSections() {
   let allGuitars = getAllGuitars();
 
+  // Helper that builds a featured card with a "NEW" or "HOT" badge
   let createFeaturedCard = (guitar, badgeText, badgeClass) => {
     let card = document.createElement('div');
     card.className = 'featured-card';
@@ -261,23 +287,24 @@ function renderFeaturedSections() {
     return card;
   };
 
+  // Put up to 4 "new: true" guitars into #new-arrivals-grid
   let newArrivalsGrid = document.getElementById('new-arrivals-grid');
   if (newArrivalsGrid) {
     newArrivalsGrid.innerHTML = '';
     let newItems = allGuitars.filter(g => g.isNew).slice(0, 4);
     newItems.forEach(g => newArrivalsGrid.appendChild(createFeaturedCard(g, 'NEW', 'badge-new')));
-    console.log("[DISPLAY ON WEBSITE] Rendered New Arrivals count:", newItems.length);
   }
 
+  // Put up to 4 "bestSeller: true" guitars into #best-sellers-grid
   let bestSellersGrid = document.getElementById('best-sellers-grid');
   if (bestSellersGrid) {
     bestSellersGrid.innerHTML = '';
     let hotItems = allGuitars.filter(g => g.isBestSeller).slice(0, 4);
     hotItems.forEach(g => bestSellersGrid.appendChild(createFeaturedCard(g, 'HOT', 'badge-hot')));
-    console.log("[DISPLAY ON WEBSITE] Rendered Best Sellers count:", hotItems.length);
   }
 }
 
+// Saves clicked guitar and opens product.html with id and brand in the URL query string
 function selectProduct(guitar) {
   localStorage.setItem('selectedProduct', JSON.stringify(guitar));
   localStorage.setItem('selectedProductId', guitar.id);
@@ -328,6 +355,7 @@ function setupSearch() {
         PRS: prsGuitars
       };
 
+      // [PUTS DATA OUT TO WEBSITE] Re-renders each brand section with only matching guitars
       Object.entries(brandMap).forEach(([brandName, guitars]) => {
         let matches = guitars.filter(g =>
           g.name.toLowerCase().includes(query) ||
