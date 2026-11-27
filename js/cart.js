@@ -13,7 +13,6 @@ let cartItems = [];
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Show cached local items right away so the page doesn't feel blank while Firestore loads
   loadFromLocalCache();
   watchNavbarChanges();
 
@@ -84,7 +83,6 @@ async function loadCartFromFirestore(uid) {
       let data = cartSnap.data();
       cartItems = normalizeCartItems(data.items);
     } else if (cartItems.length > 0) {
-      // First time user has a Firestore cart doc: sync existing local cart up to Firestore
       await saveCartToFirestore(uid, cartItems);
     } else {
       cartItems = [];
