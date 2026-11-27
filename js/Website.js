@@ -43,11 +43,15 @@ function syncLocalCartCache(items) {
   localStorage.setItem('cart', JSON.stringify(items));
 }
 
+// ============================================================================
+// [DISPLAY ON WEBSITE] Puts the cart item count out into the #cart-count badge
+// ============================================================================
 function updateCartBadge(items = cartItems) {
   let totalQty = items.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
   let badge = document.getElementById('cart-count');
   if (badge) {
     badge.textContent = totalQty;
+    console.log("[DISPLAY ON WEBSITE] Updated #cart-count badge to:", totalQty);
   }
 }
 
@@ -59,9 +63,13 @@ function loadCartFromLocalCache() {
   updateCartBadge(cartItems);
 }
 
+// ============================================================================
+// [GET DATA FROM FIRESTORE] Fetches the user's cart doc from carts/{uid}
+// ============================================================================
 async function loadCartFromFirestore(uid) {
   if (!uid) return;
   try {
+    console.log("[GET DATA FROM FIRESTORE] Fetching cart for user:", uid);
     let cartRef = doc(db, 'carts', uid);
     let cartSnap = await getDoc(cartRef);
 
@@ -69,6 +77,9 @@ async function loadCartFromFirestore(uid) {
       let data = cartSnap.data();
       cartItems = normalizeCartItems(data.items);
       syncLocalCartCache(cartItems);
+      console.log("[GET DATA FROM FIRESTORE] Loaded cart items:", cartItems);
+    } else {
+      console.log("[GET DATA FROM FIRESTORE] No cart document found for user:", uid);
     }
     updateCartBadge(cartItems);
   } catch (error) {
@@ -87,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // [DISPLAY ON WEBSITE] Puts the signed-in user's name/link into the navbar
     let authContainer = document.getElementById('nav-auth-container');
     if (authContainer) {
       let displayName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
@@ -102,6 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// ============================================================================
+// [GET DATA FROM FIRESTORE] Fetches guitars from each brand collection
+// ============================================================================
 async function loadCatalogFromFirestore() {
   try {
     gibsonGuitars = [];
@@ -121,6 +136,7 @@ async function loadCatalogFromFirestore() {
     let totalDocs = 0;
 
     for (let source of brandSources) {
+      console.log("[GET DATA FROM FIRESTORE] Reading collection:", source.name);
       let querySnapshot = await getDocs(collection(db, source.name));
       totalDocs += querySnapshot.size;
 
@@ -141,13 +157,14 @@ async function loadCatalogFromFirestore() {
       });
     }
 
-    console.log("Firestore returned total documents count:", totalDocs);
+    console.log("[GET DATA FROM FIRESTORE] Total documents fetched:", totalDocs);
 
     if (totalDocs === 0) {
       console.warn("No documents found across brand collections.");
       return;
     }
 
+    // [DISPLAY ON WEBSITE] Renders the fetched guitars into the page sections
     renderAllBrands();
     renderFeaturedSections();
   } catch (error) {
@@ -156,6 +173,9 @@ async function loadCatalogFromFirestore() {
   }
 }
 
+// ============================================================================
+// [DISPLAY ON WEBSITE] Builds and injects guitar cards into a brand section
+// ============================================================================
 function renderBrandSection(brandName, guitarArray) {
   let section = document.getElementById(brandName);
   if (!section) return;
@@ -193,8 +213,13 @@ function renderBrandSection(brandName, guitarArray) {
     card.appendChild(price);
     grid.appendChild(card);
   });
+
+  console.log(`[DISPLAY ON WEBSITE] Rendered ${guitarArray.length} cards for ${brandName}`);
 }
 
+// ============================================================================
+// [DISPLAY ON WEBSITE] Triggers rendering across all five brand sections
+// ============================================================================
 function renderAllBrands() {
   renderBrandSection('Gibson', gibsonGuitars);
   renderBrandSection('Fender', fenderGuitars);
@@ -203,6 +228,9 @@ function renderAllBrands() {
   renderBrandSection('PRS', prsGuitars);
 }
 
+// ============================================================================
+// [DISPLAY ON WEBSITE] Renders New Arrivals and Best Sellers onto the page
+// ============================================================================
 function renderFeaturedSections() {
   let allGuitars = getAllGuitars();
 
@@ -238,6 +266,7 @@ function renderFeaturedSections() {
     newArrivalsGrid.innerHTML = '';
     let newItems = allGuitars.filter(g => g.isNew).slice(0, 4);
     newItems.forEach(g => newArrivalsGrid.appendChild(createFeaturedCard(g, 'NEW', 'badge-new')));
+    console.log("[DISPLAY ON WEBSITE] Rendered New Arrivals count:", newItems.length);
   }
 
   let bestSellersGrid = document.getElementById('best-sellers-grid');
@@ -245,6 +274,7 @@ function renderFeaturedSections() {
     bestSellersGrid.innerHTML = '';
     let hotItems = allGuitars.filter(g => g.isBestSeller).slice(0, 4);
     hotItems.forEach(g => bestSellersGrid.appendChild(createFeaturedCard(g, 'HOT', 'badge-hot')));
+    console.log("[DISPLAY ON WEBSITE] Rendered Best Sellers count:", hotItems.length);
   }
 }
 
