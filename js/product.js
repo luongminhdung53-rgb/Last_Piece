@@ -278,29 +278,31 @@ async function handleAddToCart() {
   let addBtn = document.getElementById('add-to-cart-btn');
   let feedbackEl = document.getElementById('cart-feedback');
 
+if (addBtn) {
+  addBtn.disabled = true;
+  addBtn.style.backgroundColor = '#2e7d32';
+  addBtn.style.color = '#ffffff';
+  addBtn.textContent = 'Added!';
+}
+
+if (feedbackEl) {
+  feedbackEl.style.color = '#1b5e20';
+  feedbackEl.textContent = 'The product has been added to cart!';
+}
+
+if (feedbackTimer) {
+  clearTimeout(feedbackTimer);
+}
+
+feedbackTimer = setTimeout(() => {
   if (addBtn) {
-    addBtn.style.backgroundColor = '#2e7d32';
-    addBtn.style.color = '#ffffff';
-    addBtn.textContent = 'Added!';
+    addBtn.style.backgroundColor = '';
+    addBtn.style.color = '';
+    addBtn.textContent = 'Add to Cart';
+    addBtn.disabled = false;
   }
-
   if (feedbackEl) {
-    feedbackEl.style.color = '#1b5e20';
-    feedbackEl.textContent = 'The product has been added to cart!';
+    feedbackEl.textContent = '';
   }
-
-  if (feedbackTimer) {
-    clearTimeout(feedbackTimer);
-  }
-
-  feedbackTimer = setTimeout(() => {
-    if (addBtn) {
-      addBtn.style.backgroundColor = '';
-      addBtn.style.color = '';
-      addBtn.textContent ='Add to Cart';
-    }
-    if (feedbackEl) {
-      feedbackEl.textContent = '';
-    }
-  }, 2000);
+}, 1000);
 }
