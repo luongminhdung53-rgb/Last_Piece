@@ -240,11 +240,40 @@ function setupQuantityControls() {
   }
 }
 
-// ============================================================================
-// [SAVES DATA & DISPLAYS FEEDBACK] Adds guitar to cart and shows green message
-// ============================================================================
 async function handleAddToCart() {
   if (!currentProduct) return;
+
+  let addBtn = document.getElementById('add-to-cart-btn');
+  let feedbackEl = document.getElementById('cart-feedback');
+
+  // Disable immediately on click and show feedback right away
+  if (addBtn) {
+    addBtn.disabled = true;
+    addBtn.style.backgroundColor = '#2e7d32';
+    addBtn.style.color = '#ffffff';
+    addBtn.textContent = 'Added!';
+  }
+
+  if (feedbackEl) {
+    feedbackEl.style.color = '#1b5e20';
+    feedbackEl.textContent = 'The product has been added to cart!';
+  }
+
+  if (feedbackTimer) {
+    clearTimeout(feedbackTimer);
+  }
+
+  feedbackTimer = setTimeout(() => {
+    if (addBtn) {
+      addBtn.style.backgroundColor = '';
+      addBtn.style.color = '';
+      addBtn.textContent = 'Add to Cart';
+      addBtn.disabled = false;
+    }
+    if (feedbackEl) {
+      feedbackEl.textContent = '';
+    }
+  }, 1000);
 
   // Check if this exact guitar is already in the cart
   let existingIndex = cartItems.findIndex(
@@ -273,36 +302,4 @@ async function handleAddToCart() {
   if (currentUser) {
     await saveCartToFirestore(currentUser.uid, cartItems);
   }
-
-  // [PUTS DATA OUT TO WEBSITE] Turn button green and display confirmation text for 2 seconds
-  let addBtn = document.getElementById('add-to-cart-btn');
-  let feedbackEl = document.getElementById('cart-feedback');
-
-if (addBtn) {
-  addBtn.disabled = true;
-  addBtn.style.backgroundColor = '#2e7d32';
-  addBtn.style.color = '#ffffff';
-  addBtn.textContent = 'Added!';
-}
-
-if (feedbackEl) {
-  feedbackEl.style.color = '#1b5e20';
-  feedbackEl.textContent = 'The product has been added to cart!';
-}
-
-if (feedbackTimer) {
-  clearTimeout(feedbackTimer);
-}
-
-feedbackTimer = setTimeout(() => {
-  if (addBtn) {
-    addBtn.style.backgroundColor = '';
-    addBtn.style.color = '';
-    addBtn.textContent = 'Add to Cart';
-    addBtn.disabled = false;
-  }
-  if (feedbackEl) {
-    feedbackEl.textContent = '';
-  }
-}, 1000);
 }
