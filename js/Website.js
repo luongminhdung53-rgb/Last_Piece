@@ -1,12 +1,13 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { collection, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 let gibsonGuitars = [];
 let fenderGuitars = [];
 let epiphoneGuitars = [];
 let kramerGuitars = [];
 let prsGuitars = [];
+let cartItems = [];
 
 function detectBrand(guitarName, docId) {
   let text = `${guitarName || ''} ${docId || ''}`.toLowerCase();
@@ -28,7 +29,55 @@ function getAllGuitars() {
   ];
 }
 
+function normalizeCartItems(items) {
+  if (!Array.isArray(items)) return [];
+  return items.map((item) => ({
+    ...item,
+    price: Number(item.price) || 0,
+    quantity: Number(item.quantity) || 1
+  }));
+}
+
+function syncLocalCartCache(items) {
+  localStorage.setItem('guitarentCart', JSON.stringify(items));
+  localStorage.setItem('cart', JSON.stringify(items));
+}
+
+function updateCartBadge(items = cartItems) {
+  let totalQty = items.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+  let badge = document.getElementById('cart-count');
+  if (badge) {
+    badge.textContent = totalQty;
+  }
+}
+
+function loadCartFromLocalCache() {
+  let savedCart = JSON.parse(localStorage.getItem('guitarentCart'))
+    || JSON.parse(localStorage.getItem('cart'))
+    || [];
+  cartItems = normalizeCartItems(savedCart);
+  updateCartBadge(cartItems);
+}
+
+async function loadCartFromFirestore(uid) {
+  if (!uid) return;
+  try {
+    let cartRef = doc(db, 'carts', uid);
+    let cartSnap = await getDoc(cartRef);
+
+    if (cartSnap.exists()) {
+      let data = cartSnap.data();
+      cartItems = normalizeCartItems(data.items);
+      syncLocalCartCache(cartItems);
+    }
+    updateCartBadge(cartItems);
+  } catch (error) {
+    console.error("Failed to load user cart:", error.code, error.message);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  loadCartFromLocalCache();
   setupSearch();
   setupChatWidget();
 
@@ -48,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
+    await loadCartFromFirestore(user.uid);
     await loadCatalogFromFirestore();
   });
 });
@@ -105,6 +155,7 @@ async function loadCatalogFromFirestore() {
     alert("Database error: " + error.message);
   }
 }
+
 function renderBrandSection(brandName, guitarArray) {
   let section = document.getElementById(brandName);
   if (!section) return;
@@ -200,7 +251,7 @@ function renderFeaturedSections() {
 function selectProduct(guitar) {
   localStorage.setItem('selectedProduct', JSON.stringify(guitar));
   localStorage.setItem('selectedProductId', guitar.id);
-  window.location.href = `product.html?id=${encodeURIComponent(guitar.id)}`;
+  window.location.href = `product.html?id=${encodeURIComponent(guitar.id)}&brand=${encodeURIComponent(guitar.brand)}`;
 }
 
 function setupSearch() {
