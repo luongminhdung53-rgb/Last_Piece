@@ -9,13 +9,18 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Holds the items currently in the shopping cart and the signed-in user
 let cartItems = [];
 let currentUser = null;
 
+// Runs once cart.html finishes loading
 document.addEventListener('DOMContentLoaded', () => {
+  // Show locally cached cart items right away so the screen isn't blank while waiting on Firestore
   loadFromLocalCache();
+  // Keep the cart count badge accurate if the navbar re-renders
   watchNavbarChanges();
 
+  // Confirm who is signed in, update the navbar, and load their Firestore cart
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'Sign_in.html';
@@ -28,12 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
   });
 
+  // Hook up the Checkout button
   let checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', handleCheckout);
   }
 });
 
+// ============================================================================
+// [PUTS DATA OUT TO WEBSITE] Replaces "Sign In" button with the user's name
+// ============================================================================
 function updateNavbarUser(user) {
   let authContainer = document.getElementById('nav-auth-container');
   if (!authContainer) return;
@@ -49,6 +58,7 @@ function updateNavbarUser(user) {
   `;
 }
 
+// Ensures price and quantity are always numbers so math calculations never break
 function normalizeCartItems(items) {
   if (!Array.isArray(items)) return [];
   return items.map((item) => ({
@@ -58,6 +68,7 @@ function normalizeCartItems(items) {
   }));
 }
 
+// Reads cached cart items from browser localStorage and renders them immediately
 function loadFromLocalCache() {
   let savedGuitarentCart = JSON.parse(localStorage.getItem('guitarentCart'));
   let savedGenericCart = JSON.parse(localStorage.getItem('cart'));
@@ -74,20 +85,26 @@ function loadFromLocalCache() {
   updateCartBadge();
 }
 
+// ============================================================================
+// [GETS DATA FROM FIRESTORE] Fetches the user's cart from "carts/{uid}"
+// ============================================================================
 async function loadCartFromFirestore(uid) {
   try {
     let cartRef = doc(db, 'carts', uid);
     let cartSnap = await getDoc(cartRef);
 
     if (cartSnap.exists()) {
+      // Use the saved items from Firestore
       let data = cartSnap.data();
       cartItems = normalizeCartItems(data.items);
     } else if (cartItems.length > 0) {
+      // If Firestore has no cart yet, upload the local cache up to Firestore
       await saveCartToFirestore(uid, cartItems);
     } else {
       cartItems = [];
     }
 
+    // Update localStorage and redraw the cart UI
     syncLocalCache();
     renderCart();
     updateCartBadge();
@@ -96,6 +113,9 @@ async function loadCartFromFirestore(uid) {
   }
 }
 
+// ============================================================================
+// [WRITES DATA TO FIRESTORE] Saves the updated cart array to "carts/{uid}"
+// ============================================================================
 async function saveCartToFirestore(uid, items) {
   if (!uid) return;
   try {
@@ -109,11 +129,15 @@ async function saveCartToFirestore(uid, items) {
   }
 }
 
+// Mirrors cartItems into browser localStorage
 function syncLocalCache() {
   localStorage.setItem('guitarentCart', JSON.stringify(cartItems));
   localStorage.setItem('cart', JSON.stringify(cartItems));
 }
 
+// ============================================================================
+// [PUTS DATA OUT TO WEBSITE] Builds the HTML list of cart items and subtotal
+// ============================================================================
 function renderCart() {
   let emptyMsg = document.getElementById('empty-cart-msg');
   let itemsContainer = document.getElementById('cart-items-container');
@@ -122,6 +146,7 @@ function renderCart() {
 
   if (!itemsContainer) return;
 
+  // If the cart is empty, show the empty message and hide the checkout box
   if (cartItems.length === 0) {
     if (emptyMsg) emptyMsg.style.display = 'block';
     itemsContainer.innerHTML = '';
@@ -132,6 +157,7 @@ function renderCart() {
   if (emptyMsg) emptyMsg.style.display = 'none';
   if (summaryBox) summaryBox.style.display = 'block';
 
+  // Build a row card for each item and add up the subtotal
   let subtotal = 0;
   itemsContainer.innerHTML = cartItems.map((item, index) => {
     let qty = Number(item.quantity) || 1;
@@ -163,9 +189,11 @@ function renderCart() {
     `;
   }).join('');
 
+  // Display the calculated dollar subtotal on the page
   if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
 }
 
+// Increases or decreases an item's quantity (removes it if quantity drops to 0)
 window.changeItemQty = async function(index, change) {
   if (!cartItems[index]) return;
   cartItems[index].quantity = (Number(cartItems[index].quantity) || 1) + change;
@@ -177,11 +205,13 @@ window.changeItemQty = async function(index, change) {
   await saveAndRender();
 };
 
+// Deletes an item completely when the user clicks "Remove"
 window.removeCartItem = async function(index) {
   cartItems.splice(index, 1);
   await saveAndRender();
 };
 
+// Saves changes locally, updates the webpage UI, and syncs to Firestore
 async function saveAndRender() {
   syncLocalCache();
   renderCart();
@@ -192,6 +222,9 @@ async function saveAndRender() {
   }
 }
 
+// ============================================================================
+// [WRITES ORDER TO FIRESTORE] Saves completed order under "users/{uid}/orders"
+// ============================================================================
 async function handleCheckout() {
   if (cartItems.length === 0) return;
 
@@ -205,6 +238,7 @@ async function handleCheckout() {
 
   try {
     if (currentUser) {
+      // Save a receipt of this order in the user's orders subcollection
       let ordersRef = collection(db, 'users', currentUser.uid, 'orders');
       await addDoc(ordersRef, {
         items: cartItems,
@@ -215,6 +249,7 @@ async function handleCheckout() {
       });
     }
 
+    // Empty the cart locally and in Firestore, then return to the main store
     cartItems = [];
     await saveAndRender();
     alert('Order placed successfully!');
@@ -225,6 +260,9 @@ async function handleCheckout() {
   }
 }
 
+// ============================================================================
+// [PUTS DATA OUT TO WEBSITE] Updates the Cart (X) badge in the navbar
+// ============================================================================
 function updateCartBadge() {
   let totalQty = cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
   let badge = document.getElementById('cart-count');
@@ -233,6 +271,7 @@ function updateCartBadge() {
   }
 }
 
+// Watches the navbar for DOM changes and ensures #cart-count never resets accidentally
 function watchNavbarChanges() {
   let authContainer = document.getElementById('nav-auth-container');
   let badge = document.getElementById('cart-count');

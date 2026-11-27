@@ -1,9 +1,12 @@
 import { requireAuth } from './firebase-config.js';
 
+// OpenWeatherMap API key used to request live weather data
 const API_KEY = "f7621194aa6137394a5d542626439a34";
 
+// Redirects to Sign_in.html if no user is logged in
 requireAuth();
 
+// Grab the form, search input, GPS button, and result display elements from weather.html
 const weatherForm = document.getElementById("weather-form");
 const locationInput = document.getElementById("location-input");
 const deviceLocationBtn = document.getElementById("device-location-btn");
@@ -13,6 +16,7 @@ const cityName = document.getElementById("city-name");
 const temperature = document.getElementById("temperature");
 const weatherDesc = document.getElementById("weather-desc");
 
+// When the user types a city name and submits, build the API URL and fetch weather
 weatherForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const location = locationInput.value.trim();
@@ -22,6 +26,7 @@ weatherForm.addEventListener("submit", (e) => {
   }
 });
 
+// When the user clicks "Use My Location", get GPS coordinates and fetch weather for them
 deviceLocationBtn.addEventListener("click", () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -39,6 +44,9 @@ deviceLocationBtn.addEventListener("click", () => {
   }
 });
 
+// ============================================================================
+// [GETS DATA FROM WEATHER API] Sends HTTP request and parses JSON response
+// ============================================================================
 function fetchWeatherData(url) {
   fetch(url)
     .then((response) => {
@@ -51,6 +59,9 @@ function fetchWeatherData(url) {
     .catch((error) => alert(error.message));
 }
 
+// ============================================================================
+// [PUTS DATA OUT TO WEBSITE] Displays city, temperature, and condition on page
+// ============================================================================
 function displayWeather(data) {
   cityName.innerText = `${data.name}, ${data.sys.country}`;
   temperature.innerText = `${Math.round(data.main.temp)}°C`;
