@@ -201,12 +201,16 @@ async function loadProductFromFirestore() {
 function renderProductDetails(guitar) {
   document.title = `${guitar.name} - Guitarent`;
 
+  let wrapperEl = document.querySelector('.product-wrapper');
   let brandEl = document.getElementById('product-brand');
   let nameEl = document.getElementById('product-name');
   let priceEl = document.getElementById('product-price');
   let descEl = document.getElementById('product-desc');
   let imgEl = document.getElementById('product-img');
 
+  if (wrapperEl) {
+    wrapperEl.setAttribute('data-brand', guitar.brand);
+  }
   if (brandEl) brandEl.textContent = guitar.brand;
   if (nameEl) nameEl.textContent = guitar.name;
   if (priceEl) priceEl.textContent = `$${Number(guitar.price).toLocaleString()}`;
@@ -302,4 +306,5 @@ async function handleAddToCart() {
   if (currentUser) {
     await saveCartToFirestore(currentUser.uid, cartItems);
   }
+
 }

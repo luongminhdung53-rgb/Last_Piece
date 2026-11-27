@@ -116,16 +116,49 @@ body {
   padding: 0 20px;
 }
 
-.product-wrapper {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
-  align-items: center;
-  background-color: #c29b6c;
-  border: 2px solid #5c3a16;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 4px 12px rgba(59, 36, 11, 0.15);
+.product-wrapper,
+.product-wrapper[data-brand="Gibson"] {
+  background-color: #694207;
+  color: wheat;
+}
+
+.product-wrapper[data-brand="Fender"] {
+  background-color: #840c0c;
+  color: wheat;
+}
+
+.product-wrapper[data-brand="Epiphone"] {
+  background-color: #5f2b03;
+  color: wheat;
+}
+
+.product-wrapper[data-brand="Kramer"] {
+  background-color: #924242;
+  color: wheat;
+}
+
+.product-wrapper[data-brand="PRS"] {
+  background-color: #a95506;
+  color: wheat;
+}
+
+/* Keep text and specs readable across all brand card backgrounds */
+.product-wrapper[data-brand] .product-title,
+.product-wrapper[data-brand] .price-tag,
+.product-wrapper[data-brand] .specs-heading,
+.product-wrapper[data-brand] .specs-text,
+.product-wrapper[data-brand] .cart-feedback {
+  color: wheat;
+}
+
+.product-wrapper[data-brand] .specs-box {
+  background-color: rgba(0, 0, 0, 0.22);
+  color: wheat;
+}
+
+.product-wrapper[data-brand] .brand-badge {
+  background-color: rgba(0, 0, 0, 0.35);
+  color: #f5deb3;
 }
 
 .product-info-col {
